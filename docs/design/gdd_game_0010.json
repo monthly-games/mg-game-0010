@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "game_id": "game_0010",
+    "code_name": "MG-0010",
+    "title_kr": "던전 샵 시뮬레이터",
+    "title_en": "Dungeon Shop Simulator",
+    "version": "0.1.0",
+    "last_updated": "2025-01-01"
+  },
+  "overview": {
+    "genre_tags": ["shop", "simulation", "idle"],
+    "target_audience": {
+      "age": "15-35",
+      "region": ["KR", "SEA"],
+      "play_style": "casual"
+    },
+    "core_loop": "던전에서 재료를 수집하고, 상점을 경영하며, 방치 수익으로 확장한다",
+    "unique_selling_point": "상점 경영과 던전 탐험의 조화"
+  },
+  "gameplay": {
+    "core_mechanics": [
+      {
+        "name": "상점 경영",
+        "description": "아이템을 제작하고 모험가에게 판매"
+      },
+      {
+        "name": "던전 탐험",
+        "description": "던전에 들어가 재료와 레시피 획득"
+      },
+      {
+        "name": "방치 생산",
+        "description": "오프라인 시간 동안 자동으로 아이템 제작 및 판매"
+      }
+    ],
+    "progression": {
+      "type": "shop_expansion",
+      "description": "상점 확장과 새로운 레시피 해금으로 진행"
+    },
+    "session_length": "5-15분"
+  },
+  "economy": {
+    "currencies": [
+      {
+        "name": "골드",
+        "type": "soft",
+        "sources": ["아이템 판매", "방치 수익", "던전 보상"],
+        "sinks": ["재료 구매", "상점 확장", "레시피 해금"]
+      },
+      {
+        "name": "보석",
+        "type": "hard",
+        "sources": ["인앱 구매", "업적", "이벤트"],
+        "sinks": ["프리미엄 레시피", "생산 가속", "골드 구매"]
+      }
+    ],
+    "monetization": {
+      "model": "F2P + IAP",
+      "iap_items": ["보석 패키지", "월정액", "스타터 팩"],
+      "ad_placements": ["보상형 광고 (생산 가속, 보상 2배)", "인터스티셜 (던전 클리어 후)"]
+    }
+  },
+  "technical": {
+    "platform": ["Android", "iOS"],
+    "engine": "Flutter + Flame",
+    "backend": "Firebase",
+    "analytics": "GA4 + BigQuery"
+  }
+}
