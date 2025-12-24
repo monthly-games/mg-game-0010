@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mg_common_game/core/ui/theme/app_colors.dart'; // Assuming common game is available
+// Assuming common game is available
 import '../systems/shop_manager.dart';
 import '../core/data/game_data.dart';
-import '../core/models/recipe.dart';
-import '../core/models/item.dart';
-import '../core/models/customer.dart';
-import 'dungeon_screen.dart';
 import '../systems/audio_manager.dart';
 
 class ShopScreen extends StatefulWidget {

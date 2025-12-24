@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../systems/dungeon_manager.dart';
 import '../core/data/game_data.dart';
-import '../core/models/dungeon.dart';
 
 class DungeonScreen extends StatefulWidget {
   const DungeonScreen({super.key});

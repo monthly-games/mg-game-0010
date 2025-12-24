@@ -5,8 +5,6 @@ import 'systems/dungeon_manager.dart';
 import 'ui/shop_screen.dart';
 
 // Common Imports (Keep these if you need them later, or comment out)
-import 'package:mg_common_game/systems/progression/progression_manager.dart';
-import 'package:mg_common_game/core/economy/gold_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
