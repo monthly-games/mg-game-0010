@@ -12,13 +12,15 @@
         "flame",
         "flutter",
         "get_it",
+        "google_mobile_ads",
         "mg_common_game",
         "provider",
         "shared_preferences"
       ],
       "devDependencies": [
         "flutter_lints",
-        "flutter_test"
+        "flutter_test",
+        "google_mobile_ads"
       ]
     },
     {
@@ -77,7 +79,7 @@
     },
     {
       "name": "mg_common_game",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "dependencies": [
         "flame",
         "flame_audio",
@@ -88,7 +90,8 @@
         "injectable",
         "intl",
         "json_annotation",
-        "shared_preferences"
+        "shared_preferences",
+        "vibration"
       ]
     },
     {
@@ -282,23 +285,10 @@
       "dependencies": []
     },
     {
-      "name": "flame_audio",
-      "version": "2.11.12",
+      "name": "json_annotation",
+      "version": "4.9.0",
       "dependencies": [
-        "audioplayers",
-        "flame",
-        "flutter",
-        "synchronized"
-      ]
-    },
-    {
-      "name": "flame_spine",
-      "version": "0.3.0+1",
-      "dependencies": [
-        "collection",
-        "flame",
-        "flutter",
-        "spine_flutter"
+        "meta"
       ]
     },
     {
@@ -311,9 +301,10 @@
       ]
     },
     {
-      "name": "json_annotation",
-      "version": "4.9.0",
+      "name": "injectable",
+      "version": "2.6.0",
       "dependencies": [
+        "get_it",
         "meta"
       ]
     },
@@ -327,11 +318,23 @@
       ]
     },
     {
-      "name": "injectable",
-      "version": "2.6.0",
+      "name": "flame_spine",
+      "version": "0.3.0+1",
       "dependencies": [
-        "get_it",
-        "meta"
+        "collection",
+        "flame",
+        "flutter",
+        "spine_flutter"
+      ]
+    },
+    {
+      "name": "flame_audio",
+      "version": "2.11.12",
+      "dependencies": [
+        "audioplayers",
+        "flame",
+        "flutter",
+        "synchronized"
       ]
     },
     {
@@ -473,6 +476,20 @@
       ]
     },
     {
+      "name": "spine_flutter",
+      "version": "4.3.1",
+      "dependencies": [
+        "crypto",
+        "flutter",
+        "http",
+        "inject_js",
+        "js",
+        "meta",
+        "path",
+        "universal_ffi"
+      ]
+    },
+    {
       "name": "synchronized",
       "version": "3.4.0",
       "dependencies": []
@@ -494,20 +511,6 @@
         "path_provider",
         "synchronized",
         "uuid"
-      ]
-    },
-    {
-      "name": "spine_flutter",
-      "version": "4.3.1",
-      "dependencies": [
-        "crypto",
-        "flutter",
-        "http",
-        "inject_js",
-        "js",
-        "meta",
-        "path",
-        "universal_ffi"
       ]
     },
     {
@@ -534,6 +537,44 @@
       ]
     },
     {
+      "name": "universal_ffi",
+      "version": "1.1.3",
+      "dependencies": [
+        "ffi",
+        "path",
+        "wasm_ffi"
+      ]
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
+    },
+    {
+      "name": "http",
+      "version": "1.6.0",
+      "dependencies": [
+        "async",
+        "http_parser",
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "js",
+      "version": "0.6.7",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "inject_js",
+      "version": "2.1.0",
+      "dependencies": []
+    },
+    {
       "name": "uuid",
       "version": "4.5.2",
       "dependencies": [
@@ -552,16 +593,6 @@
         "path_provider_linux",
         "path_provider_platform_interface",
         "path_provider_windows"
-      ]
-    },
-    {
-      "name": "http",
-      "version": "1.6.0",
-      "dependencies": [
-        "async",
-        "http_parser",
-        "meta",
-        "web"
       ]
     },
     {
@@ -617,32 +648,32 @@
       ]
     },
     {
-      "name": "universal_ffi",
-      "version": "1.1.3",
+      "name": "wasm_ffi",
+      "version": "2.0.7",
       "dependencies": [
         "ffi",
+        "http",
+        "meta",
         "path",
-        "wasm_ffi"
+        "web"
       ]
     },
     {
-      "name": "crypto",
-      "version": "3.0.7",
+      "name": "typed_data",
+      "version": "1.4.0",
       "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "dependencies": [
+        "collection",
+        "source_span",
+        "string_scanner",
         "typed_data"
       ]
-    },
-    {
-      "name": "js",
-      "version": "0.6.7",
-      "dependencies": [
-        "meta"
-      ]
-    },
-    {
-      "name": "inject_js",
-      "version": "2.1.0",
-      "dependencies": []
     },
     {
       "name": "fixnum",
@@ -666,31 +697,109 @@
       ]
     },
     {
-      "name": "http_parser",
-      "version": "4.1.2",
+      "name": "vibration",
+      "version": "1.9.0",
       "dependencies": [
-        "collection",
-        "source_span",
-        "string_scanner",
-        "typed_data"
+        "flutter",
+        "vibration_platform_interface"
       ]
     },
     {
-      "name": "wasm_ffi",
-      "version": "2.0.7",
+      "name": "google_mobile_ads",
+      "version": "5.3.1",
       "dependencies": [
-        "ffi",
-        "http",
+        "flutter",
+        "meta",
+        "webview_flutter",
+        "webview_flutter_android",
+        "webview_flutter_wkwebview"
+      ]
+    },
+    {
+      "name": "vibration_platform_interface",
+      "version": "0.0.3",
+      "dependencies": [
+        "device_info_plus",
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "webview_flutter",
+      "version": "4.13.0",
+      "dependencies": [
+        "flutter",
+        "webview_flutter_android",
+        "webview_flutter_platform_interface",
+        "webview_flutter_wkwebview"
+      ]
+    },
+    {
+      "name": "webview_flutter_platform_interface",
+      "version": "2.14.0",
+      "dependencies": [
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "webview_flutter_wkwebview",
+      "version": "3.23.5",
+      "dependencies": [
+        "flutter",
         "meta",
         "path",
-        "web"
+        "webview_flutter_platform_interface"
       ]
     },
     {
-      "name": "typed_data",
-      "version": "1.4.0",
+      "name": "webview_flutter_android",
+      "version": "4.10.11",
       "dependencies": [
-        "collection"
+        "flutter",
+        "meta",
+        "webview_flutter_platform_interface"
+      ]
+    },
+    {
+      "name": "device_info_plus",
+      "version": "11.5.0",
+      "dependencies": [
+        "device_info_plus_platform_interface",
+        "ffi",
+        "file",
+        "flutter",
+        "flutter_web_plugins",
+        "meta",
+        "web",
+        "win32",
+        "win32_registry"
+      ]
+    },
+    {
+      "name": "win32_registry",
+      "version": "2.1.0",
+      "dependencies": [
+        "ffi",
+        "meta",
+        "win32"
+      ]
+    },
+    {
+      "name": "device_info_plus_platform_interface",
+      "version": "7.0.3",
+      "dependencies": [
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "win32",
+      "version": "5.15.0",
+      "dependencies": [
+        "ffi"
       ]
     }
   ],
