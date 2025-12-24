@@ -1,7 +1,13 @@
-# 던전 샵 시뮬레이터 - BM 설계 문서
+﻿# 던전 샵 시뮬레이터 - BM 설계 문서
 
 > game_id: game_0010
 > repo: mg-game-0010
+> title_kr: 던전 샵 시뮬레이터
+> title_en: Dungeon Shop Simulator
+> genre_tags: shop, simulation, idle
+> doc_type: bm_design
+> source_of_truth: docs/design/gdd_game_0010.json
+> last_updated: 2025-12-19
 
 ---
 
