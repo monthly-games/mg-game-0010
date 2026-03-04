@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mg_common_game/systems/quests/daily_quest.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
@@ -24,6 +25,9 @@ import 'ui/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initializeSystems();
+  // DailyQuest 시스템
+  GetIt.I.registerSingleton(DailyQuestManager());
+  _registerDailyQuests();
   runApp(const DungeonShopApp());
 }
 
@@ -270,4 +274,36 @@ class DungeonShopApp extends StatelessWidget {
       ),
     );
   }
+}
+
+
+void _registerDailyQuests() {
+  final dailyQuest = GetIt.I<DailyQuestManager>();
+  
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'collect_gold',
+    title: '골드 모으기',
+    description: '골드 1000 획득',
+    targetValue: 1000,
+    goldReward: 500,
+    xpReward: 10,
+  ));
+  
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'play_games',
+    title: '게임 플레이',
+    description: '게임 5판 플레이',
+    targetValue: 5,
+    goldReward: 300,
+    xpReward: 5,
+  ));
+  
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'level_up',
+    title: '레벨업',
+    description: '레벨 1 상승',
+    targetValue: 1,
+    goldReward: 200,
+    xpReward: 3,
+  ));
 }
