@@ -1,50 +1,273 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'systems/shop_manager.dart';
-import 'systems/dungeon_manager.dart';
-import 'ui/shop_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
+import 'package:mg_common_game/systems/progression/progression_manager.dart';
+import 'package:mg_common_game/systems/progression/achievement_manager.dart';
+import 'package:mg_common_game/systems/settings/settings_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+import 'game/shop_manager.dart';
+import 'game/crafting_manager.dart';
+import 'game/dungeon_manager.dart';
+import 'game/idle_manager.dart';
+import 'game/customer_manager.dart';
+import 'ui/main_screen.dart';
 
-// Common Imports (Keep these if you need them later, or comment out)
+// ============================================================
+// Dungeon Shop Simulator — MG-0010
+// Phase 1 Week 2: Mechanic Enhancement
+//
+// Core loop: Dungeon → Materials → Craft → Display → Sell
+// Subsystems: Customer visits, Idle income, Upgrades, Achievements
+// ============================================================
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _setupDI();
+  await _initializeSystems();
   runApp(const DungeonShopApp());
 }
 
-Future<void> _setupDI() async {
-  // Register ShopManager
-  if (!GetIt.I.isRegistered<ShopManager>()) {
-    final manager = ShopManager();
-    await manager.loadState();
-    GetIt.I.registerSingleton(manager);
+/// Initialize all DI-registered systems in correct dependency order.
+/// mg_common_game systems first, then game-specific managers.
+Future<void> _initializeSystems() async {
+  final di = GetIt.I;
+
+  // ── mg_common_game core systems ──────────────────────────
+  if (!di.isRegistered<SettingsManager>()) {
+    final settings = SettingsManager();
+    await settings.loadSettings();
+    di.registerSingleton<SettingsManager>(settings);
   }
 
-  // Register DungeonManager
-  if (!GetIt.I.isRegistered<DungeonManager>()) {
-    GetIt.I.registerSingleton(DungeonManager());
+  if (!di.isRegistered<ProgressionManager>()) {
+    di.registerSingleton<ProgressionManager>(ProgressionManager());
   }
 
-  // Register GoldManager if needed by common UI components (though ShopManager has its own Gold for now)
-  // Integrating Common Gold Manager might be good later, but for Phase 1 we use ShopManager's gold.
+  if (!di.isRegistered<AchievementManager>()) {
+    final achievements = AchievementManager();
+    di.registerSingleton<AchievementManager>(achievements);
+    _registerAchievements(achievements);
+  }
+
+  if (!di.isRegistered<UpgradeManager>()) {
+    final upgrades = UpgradeManager();
+    di.registerSingleton<UpgradeManager>(upgrades);
+    _registerUpgrades(upgrades);
+    await upgrades.loadUpgrades();
+  }
+
+  // ── Game-specific managers ───────────────────────────────
+  if (!di.isRegistered<ShopManager>()) {
+    di.registerSingleton<ShopManager>(ShopManager());
+  }
+
+  if (!di.isRegistered<CraftingManager>()) {
+    di.registerSingleton<CraftingManager>(CraftingManager());
+  }
+
+  if (!di.isRegistered<DungeonManager>()) {
+    di.registerSingleton<DungeonManager>(DungeonManager());
+  }
+
+  if (!di.isRegistered<IdleManager>()) {
+    final idle = IdleManager();
+    await idle.initialize();
+    di.registerSingleton<IdleManager>(idle);
+  }
+
+  if (!di.isRegistered<CustomerManager>()) {
+    final customers = CustomerManager();
+    di.registerSingleton<CustomerManager>(customers);
+    customers.startCustomerCycle();
+  }
 }
+
+// ============================================================
+// Upgrade Registration — 8 dungeon-shop upgrades
+// ============================================================
+
+void _registerUpgrades(UpgradeManager manager) {
+  // ── Production upgrades ──
+  manager.registerUpgrade(Upgrade(
+    id: 'craft_speed',
+    name: 'Forge Mastery',
+    description: 'Reduce crafting time by 10% per level.',
+    maxLevel: 15,
+    baseCost: 50,
+    costMultiplier: 1.4,
+    valuePerLevel: 0.1,
+  ));
+
+  manager.registerUpgrade(Upgrade(
+    id: 'craft_mastery',
+    name: 'Artisan Expertise',
+    description: 'Unlock rare recipes and boost craft quality.',
+    maxLevel: 10,
+    baseCost: 200,
+    costMultiplier: 1.6,
+    valuePerLevel: 1.0,
+  ));
+
+  // ── Commerce upgrades ──
+  manager.registerUpgrade(Upgrade(
+    id: 'sell_price',
+    name: 'Haggling',
+    description: 'Increase sell prices by 10% per level.',
+    maxLevel: 20,
+    baseCost: 80,
+    costMultiplier: 1.35,
+    valuePerLevel: 0.1,
+  ));
+
+  manager.registerUpgrade(Upgrade(
+    id: 'inventory_space',
+    name: 'Storage Expansion',
+    description: 'Add 5 inventory slots per level.',
+    maxLevel: 10,
+    baseCost: 150,
+    costMultiplier: 1.5,
+    valuePerLevel: 5.0,
+  ));
+
+  // ── Customer upgrades ──
+  manager.registerUpgrade(Upgrade(
+    id: 'customer_attraction',
+    name: 'Shop Reputation',
+    description: 'Attract customers 15% faster per level.',
+    maxLevel: 15,
+    baseCost: 100,
+    costMultiplier: 1.45,
+    valuePerLevel: 0.15,
+  ));
+
+  manager.registerUpgrade(Upgrade(
+    id: 'display_quality',
+    name: 'Display Showcase',
+    description: 'Increase purchase probability by 5% per level.',
+    maxLevel: 10,
+    baseCost: 120,
+    costMultiplier: 1.5,
+    valuePerLevel: 0.05,
+  ));
+
+  // ── Dungeon upgrades ──
+  manager.registerUpgrade(Upgrade(
+    id: 'dungeon_loot',
+    name: 'Treasure Hunter',
+    description: 'Boost dungeon material drops by 10% per level.',
+    maxLevel: 15,
+    baseCost: 100,
+    costMultiplier: 1.4,
+    valuePerLevel: 0.1,
+  ));
+
+  // ── Idle upgrades ──
+  manager.registerUpgrade(Upgrade(
+    id: 'idle_production',
+    name: 'Idle Income',
+    description: 'Increase offline gold generation by 20% per level.',
+    maxLevel: 10,
+    baseCost: 300,
+    costMultiplier: 1.8,
+    valuePerLevel: 0.2,
+  ));
+}
+
+// ============================================================
+// Achievement Registration — 5 dungeon-shop achievements
+// ============================================================
+
+void _registerAchievements(AchievementManager manager) {
+  manager.registerAchievement(Achievement(
+    id: 'first_sale',
+    title: 'Open for Business',
+    description: 'Complete your first sale.',
+    iconAsset: 'assets/images/achievement_sale.png',
+  ));
+
+  manager.registerAchievement(Achievement(
+    id: 'master_crafter',
+    title: 'Master Crafter',
+    description: 'Craft 50 items.',
+    iconAsset: 'assets/images/achievement_craft.png',
+  ));
+
+  manager.registerAchievement(Achievement(
+    id: 'master_merchant',
+    title: 'Master Merchant',
+    description: 'Accumulate 5,000 gold.',
+    iconAsset: 'assets/images/achievement_gold.png',
+  ));
+
+  manager.registerAchievement(Achievement(
+    id: 'shop_legend',
+    title: 'Shop Legend',
+    description: 'Serve 100 customers through auto-sales.',
+    iconAsset: 'assets/images/achievement_legend.png',
+  ));
+
+  manager.registerAchievement(Achievement(
+    id: 'customer_favorite',
+    title: 'Customer Favorite',
+    description: 'Reach 90% customer satisfaction.',
+    iconAsset: 'assets/images/achievement_star.png',
+  ));
+}
+
+// ============================================================
+// App Root — MultiProvider wraps all game state
+// ============================================================
 
 class DungeonShopApp extends StatelessWidget {
   const DungeonShopApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dungeon Shop Simulator',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF8B4513),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: GetIt.I<ShopManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<CraftingManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<DungeonManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<IdleManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<CustomerManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<UpgradeManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<ProgressionManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<AchievementManager>()),
+      ],
+      child: MaterialApp(
+        title: 'Dungeon Shop Simulator',
+        debugShowCheckedModeBanner: false,
+        theme: _buildTheme(),
+        home: const MainScreen(),
       ),
-      home: const ShopScreen(),
+    );
+  }
+
+  /// Dungeon-themed dark mode with warm gold accents
+  ThemeData _buildTheme() {
+    return ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: MGColors.gold,
+        brightness: Brightness.dark,
+      ),
+      useMaterial3: true,
+      appBarTheme: const AppBarTheme(
+        centerTitle: true,
+        elevation: 0,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
     );
   }
 }
