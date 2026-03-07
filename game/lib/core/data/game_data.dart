@@ -1,7 +1,7 @@
-import '../core/models/item.dart';
-import '../core/models/material.dart';
-import '../core/models/recipe.dart';
-import '../core/models/dungeon.dart';
+import '../models/item.dart';
+import '../models/material.dart';
+import '../models/recipe.dart';
+import '../models/dungeon.dart';
 
 class GameData {
   // Materials

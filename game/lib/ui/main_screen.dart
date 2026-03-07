@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../game/shop_manager.dart';
-import 'shop_tab.dart';
-import 'crafting_tab.dart';
 import 'package:mg_common_game/systems/settings/settings_manager.dart';
 import 'package:mg_common_game/core/ui/screens/settings_screen.dart' as common;
 import 'package:get_it/get_it.dart';
+import '../game/shop_manager.dart';
+import '../screens/daily_quest_screen.dart';
+import '../screens/achievement_screen.dart';
+import 'shop_tab.dart';
+import 'crafting_tab.dart';
 import 'dungeon_tab.dart';
 
 class MainScreen extends StatefulWidget {
@@ -48,6 +50,28 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                   ],
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.assignment_rounded),
+            tooltip: 'Daily Quests',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const DailyQuestScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.emoji_events_rounded),
+            tooltip: 'Achievements',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AchievementScreen(),
                 ),
               );
             },

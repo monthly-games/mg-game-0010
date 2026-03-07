@@ -32,7 +32,7 @@ class ShopManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool spendGold(int amount) {
+  bool trySpendGold(int amount) {
     if (_gold >= amount) {
       _gold -= amount;
       saveState();

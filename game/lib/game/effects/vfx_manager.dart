@@ -46,7 +46,7 @@ class VfxManager extends Component with HasGameRef {
       final velocity = Vector2(cos(angle), sin(angle)) * (speed * (0.5 + _random.nextDouble() * 0.5));
       return AcceleratedParticle(position: position.clone(), speed: velocity, acceleration: Vector2(0, 150), child: ComputedParticle(renderer: (canvas, particle) {
         final opacity = (1.0 - particle.progress).clamp(0.0, 1.0);
-        canvas.drawCircle(Offset.zero, 4 * (1.0 - particle.progress * 0.5), Paint()..color = color.withOpacity(opacity));
+        canvas.drawCircle(Offset.zero, 4 * (1.0 - particle.progress * 0.5), Paint()..color = color.withValues(alpha: opacity));
       }));
     }));
   }
@@ -57,7 +57,7 @@ class VfxManager extends Component with HasGameRef {
       final speed = radius * (0.4 + _random.nextDouble() * 0.6);
       return AcceleratedParticle(position: position.clone(), speed: Vector2(cos(angle), sin(angle)) * speed, acceleration: Vector2(0, 100), child: ComputedParticle(renderer: (canvas, particle) {
         final opacity = (1.0 - particle.progress).clamp(0.0, 1.0);
-        canvas.drawCircle(Offset.zero, 5 * (1.0 - particle.progress * 0.3), Paint()..color = color.withOpacity(opacity));
+        canvas.drawCircle(Offset.zero, 5 * (1.0 - particle.progress * 0.3), Paint()..color = color.withValues(alpha: opacity));
       }));
     }));
   }
@@ -76,7 +76,7 @@ class VfxManager extends Component with HasGameRef {
           else path.lineTo(cos(a) * size, sin(a) * size);
         }
         path.close();
-        canvas.drawPath(path, Paint()..color = color.withOpacity(opacity));
+        canvas.drawPath(path, Paint()..color = color.withValues(alpha: opacity));
       }));
     }));
   }
@@ -86,7 +86,7 @@ class VfxManager extends Component with HasGameRef {
       final spreadX = (_random.nextDouble() - 0.5) * 30;
       return AcceleratedParticle(position: position.clone() + Vector2(spreadX, 0), speed: Vector2(0, -speed), acceleration: Vector2(0, -20), child: ComputedParticle(renderer: (canvas, particle) {
         final opacity = (1.0 - particle.progress).clamp(0.0, 1.0);
-        canvas.drawCircle(Offset.zero, 3, Paint()..color = color.withOpacity(opacity));
+        canvas.drawCircle(Offset.zero, 3, Paint()..color = color.withValues(alpha: opacity));
       }));
     }));
   }
@@ -99,7 +99,7 @@ class VfxManager extends Component with HasGameRef {
         final opacity = (1.0 - particle.progress * 0.2).clamp(0.0, 1.0);
         canvas.save();
         canvas.rotate(particle.progress * 3 * pi);
-        canvas.drawOval(const Rect.fromLTWH(-3, -2, 6, 4), Paint()..color = Colors.amber.withOpacity(opacity));
+        canvas.drawOval(const Rect.fromLTWH(-3, -2, 6, 4), Paint()..color = Colors.amber.withValues(alpha: opacity));
         canvas.restore();
       }));
     }));

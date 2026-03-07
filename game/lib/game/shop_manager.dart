@@ -61,7 +61,7 @@ class ShopManager extends ChangeNotifier {
   }
 
   /// 골드 사용
-  bool spendGold(int amount) {
+  bool trySpendGold(int amount) {
     if (_gold < amount) return false;
     _gold -= amount;
     notifyListeners();
@@ -71,7 +71,7 @@ class ShopManager extends ChangeNotifier {
   /// Upgrade purchase wrapper
   bool buyUpgrade(String upgradeId) {
     return upgradeManager.purchaseUpgrade(
-        upgradeId, () => _gold, (cost) => spendGold(cost));
+        upgradeId, () => _gold, (cost) => trySpendGold(cost));
   }
 
   /// 골드 추가
