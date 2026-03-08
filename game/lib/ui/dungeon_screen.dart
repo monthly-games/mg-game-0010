@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../systems/dungeon_manager.dart';
 import '../core/data/game_data.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class DungeonScreen extends StatefulWidget {
   const DungeonScreen({super.key});
@@ -76,7 +77,7 @@ class _DungeonScreenState extends State<DungeonScreen> {
           const SizedBox(height: 40),
           TextButton(
               onPressed: () => _dungeonManager.cancelExploration(),
-              child: const Text("Cancel", style: TextStyle(color: Colors.red)))
+              child: const Text("Cancel", style: TextStyle(color: MGColors.error)))
         ],
       ),
     );
@@ -89,7 +90,7 @@ class _DungeonScreenState extends State<DungeonScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.check_circle, color: Colors.green, size: 60),
+          const Icon(Icons.check_circle, color: MGColors.success, size: 60),
           const SizedBox(height: 20),
           const Text('Exploration Complete!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),

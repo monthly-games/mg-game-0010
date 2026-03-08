@@ -18,6 +18,7 @@ import 'tutorial_overlay.dart';
 import 'package:provider/provider.dart';
 import '../game/shop_manager.dart';
 import '../game/crafting_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -68,7 +69,7 @@ class _MainMenuState extends State<MainMenu> {
                   style: TextStyle(
                     fontSize: 64,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF8B4513), // 새들브라운
+                    color: MGColors.warning, // 새들브라운
                     shadows: [
                       Shadow(
                         offset: Offset(4, 4),
@@ -99,7 +100,7 @@ class _MainMenuState extends State<MainMenu> {
                 _MenuButton(
                   icon: Icons.play_arrow,
                   label: 'PLAY',
-                  color: const Color(0xFF8B4513),
+                  color: MGColors.warning,
                   onPressed: () async {
                     final hasSeenTutorial = await TutorialOverlay.hasSeenTutorial();
 
@@ -144,7 +145,7 @@ class _MainMenuState extends State<MainMenu> {
                         onPressed: () => _showDailyQuestsScreen(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple.shade700,
-                          foregroundColor: Colors.white,
+                          foregroundColor: MGColors.textHighEmphasis,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -223,7 +224,7 @@ class _MainMenuState extends State<MainMenu> {
                               builder: (context) => common.SettingsScreen(
                                 settingsManager: GetIt.I<SettingsManager>(),
                                 title: 'Settings',
-                                accentColor: const Color(0xFF8B4513),
+                                accentColor: MGColors.warning,
                                 onClose: () => Navigator.of(context).pop(),
                                 version: '1.0.0',
                               ),
@@ -232,7 +233,7 @@ class _MainMenuState extends State<MainMenu> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF654321),
-                          foregroundColor: Colors.white,
+                          foregroundColor: MGColors.textHighEmphasis,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -261,7 +262,7 @@ class _MainMenuState extends State<MainMenu> {
                         onPressed: () => _showStatisticsScreen(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue.shade800,
-                          foregroundColor: Colors.white,
+                          foregroundColor: MGColors.textHighEmphasis,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -386,7 +387,7 @@ class _MainMenuState extends State<MainMenu> {
           questManager: GetIt.I<DailyQuestManager>(),
           achievementManager: GetIt.I<AchievementManager>(),
           title: 'Statistics',
-          accentColor: const Color(0xFF8B4513),
+          accentColor: MGColors.warning,
           onClose: () => Navigator.of(context).pop(),
         ),
       ),
@@ -502,7 +503,7 @@ class _MenuButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          foregroundColor: Colors.white,
+          foregroundColor: MGColors.textHighEmphasis,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

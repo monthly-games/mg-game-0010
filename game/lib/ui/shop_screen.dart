@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../systems/shop_manager.dart';
 import '../core/data/game_data.dart';
 import '../systems/audio_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -59,7 +60,7 @@ class _ShopScreenState extends State<ShopScreen>
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.campaign, color: Colors.orange),
+                icon: const Icon(Icons.campaign, color: MGColors.warning),
                 onPressed: () => _showMarketingDialog(context),
                 tooltip: "Marketing Upgrade",
               ),
@@ -113,9 +114,9 @@ class _ShopScreenState extends State<ShopScreen>
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.lock, color: Colors.grey),
+                        Icon(Icons.lock, color: MGColors.common),
                         Text("Locked",
-                            style: TextStyle(color: Colors.grey, fontSize: 10)),
+                            style: TextStyle(color: MGColors.common, fontSize: 10)),
                       ],
                     ),
                   ),
@@ -142,7 +143,7 @@ class _ShopScreenState extends State<ShopScreen>
                     color: Colors.grey[800],
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                        color: item != null ? Colors.amber : Colors.grey),
+                        color: item != null ? Colors.amber : MGColors.common),
                   ),
                   child: item != null
                       ? Column(

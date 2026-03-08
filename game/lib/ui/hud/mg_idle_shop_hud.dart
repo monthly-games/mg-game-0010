@@ -54,7 +54,7 @@ class MGIdleShopHud extends StatelessWidget {
                     onPressed: onSettings,
                     size: 44,
                     backgroundColor: Colors.black54,
-                    color: Colors.white,
+                    color: MGColors.textHighEmphasis,
                   )
                 else
                   const SizedBox(width: 44),
@@ -78,13 +78,13 @@ class MGIdleShopHud extends StatelessWidget {
                 _buildStatBadge(
                   Icons.people,
                   'Served: $customersServed',
-                  Colors.green,
+                  MGColors.success,
                 ),
                 MGSpacing.hMd,
                 _buildStatBadge(
                   Icons.build,
                   'Crafted: $itemsCrafted',
-                  Colors.orange,
+                  MGColors.warning,
                 ),
               ],
             ),
@@ -103,12 +103,12 @@ class MGIdleShopHud extends StatelessWidget {
       case 'shop':
         icon = Icons.store;
         label = 'SHOP';
-        color = const Color(0xFF8B4513);
+        color = MGColors.warning;
         break;
       case 'crafting':
         icon = Icons.build;
         label = 'CRAFT';
-        color = Colors.orange;
+        color = MGColors.warning;
         break;
       case 'dungeon':
         icon = Icons.terrain;
@@ -118,7 +118,7 @@ class MGIdleShopHud extends StatelessWidget {
       default:
         icon = Icons.store;
         label = 'SHOP';
-        color = const Color(0xFF8B4513);
+        color = MGColors.warning;
     }
 
     return Container(
@@ -132,14 +132,14 @@ class MGIdleShopHud extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Colors.white,
+            color: MGColors.textHighEmphasis,
             size: 20,
           ),
           MGSpacing.hXs,
           Text(
             label,
             style: MGTextStyles.hud.copyWith(
-              color: Colors.white,
+              color: MGColors.textHighEmphasis,
               fontWeight: FontWeight.bold,
             ),
           ),

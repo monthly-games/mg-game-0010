@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class TutorialOverlay extends StatefulWidget {
   final VoidCallback onComplete;
@@ -130,7 +131,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       style: const TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: MGColors.textHighEmphasis,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -172,8 +173,8 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       child: ElevatedButton(
                         onPressed: _nextStep,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF8B4513),
-                          foregroundColor: Colors.white,
+                          backgroundColor: MGColors.warning,
+                          foregroundColor: MGColors.textHighEmphasis,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),

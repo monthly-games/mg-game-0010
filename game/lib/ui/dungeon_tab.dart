@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/dungeon_manager.dart';
 import '../game/crafting_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class DungeonTab extends StatelessWidget {
   const DungeonTab({super.key});
@@ -48,7 +49,7 @@ class DungeonTab extends StatelessWidget {
             // 플레이어 상태
             Container(
               padding: const EdgeInsets.all(16),
-              color: Colors.blue.withValues(alpha: 0.2),
+              color: MGColors.info.withValues(alpha: 0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,14 +63,14 @@ class DungeonTab extends StatelessWidget {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.favorite, color: Colors.red, size: 20),
+                          const Icon(Icons.favorite, color: MGColors.error, size: 20),
                           const SizedBox(width: 4),
                           Text('${dungeon.playerHp} / ${dungeon.playerMaxHp}'),
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.flash_on, color: Colors.orange, size: 20),
+                          const Icon(Icons.flash_on, color: MGColors.warning, size: 20),
                           const SizedBox(width: 4),
                           Text('공격력: ${dungeon.playerAttack}'),
                         ],
@@ -91,7 +92,7 @@ class DungeonTab extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.2),
+                  color: MGColors.error.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -113,7 +114,7 @@ class DungeonTab extends StatelessWidget {
                     LinearProgressIndicator(
                       value: dungeon.currentMonsterHp / dungeon.currentMonster!.hp,
                       backgroundColor: Colors.grey[700],
-                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
+                      valueColor: const AlwaysStoppedAnimation<Color>(MGColors.error),
                     ),
                     const SizedBox(height: 4),
                     Text('HP: ${dungeon.currentMonsterHp} / ${dungeon.currentMonster!.hp}'),
@@ -146,7 +147,7 @@ class DungeonTab extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
                   textStyle: const TextStyle(fontSize: 18),
-                  backgroundColor: Colors.orange,
+                  backgroundColor: MGColors.warning,
                 ),
               ),
             ],

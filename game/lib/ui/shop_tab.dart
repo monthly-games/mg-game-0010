@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/shop_manager.dart';
 import '../game/models.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class ShopTab extends StatelessWidget {
   const ShopTab({super.key});
@@ -36,7 +37,7 @@ class ShopTab extends StatelessWidget {
                       )
                     : const Text(
                         '재고 없음',
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: MGColors.common),
                       ),
               ),
             );
@@ -62,11 +63,11 @@ class ShopTab extends StatelessWidget {
   Color _getItemColor(ItemType type) {
     switch (type) {
       case ItemType.weapon:
-        return Colors.red;
+        return MGColors.error;
       case ItemType.armor:
-        return Colors.blue;
+        return MGColors.info;
       case ItemType.potion:
-        return Colors.green;
+        return MGColors.success;
       case ItemType.material:
         return Colors.brown;
     }

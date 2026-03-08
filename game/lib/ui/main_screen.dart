@@ -9,6 +9,7 @@ import '../screens/achievement_screen.dart';
 import 'shop_tab.dart';
 import 'crafting_tab.dart';
 import 'dungeon_tab.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -84,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                   builder: (context) => common.SettingsScreen(
                     settingsManager: GetIt.I<SettingsManager>(),
                     title: 'Settings',
-                    accentColor: const Color(0xFF8B4513),
+                    accentColor: MGColors.warning,
                     onClose: () => Navigator.of(context).pop(),
                     version: '1.0.0',
                   ),
