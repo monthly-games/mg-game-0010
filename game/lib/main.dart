@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/systems.dart';
+import 'package:mg_common_game/systems/systems.dart' hide CraftingManager, IdleManager;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:mg_common_game/systems/quests/daily_quest.dart';
@@ -88,9 +87,9 @@ Future<void> _initializeSystems() async {
   }
 
   if (!di.isRegistered<IdleManager>()) {
-    final idle = IdleManager();
-    await idle.initialize();
-    di.registerSingleton<IdleManager>(idle);
+    final idleManager = IdleManager();
+    await idleManager.initialize();
+    di.registerSingleton<IdleManager>(idleManager);
   }
 
   if (!di.isRegistered<CustomerManager>()) {
@@ -430,7 +429,7 @@ void _registerCollections() {
   final collection = GetIt.I<CollectionManager>();
 
   // Characters 컬렉션
-  collection.registerCollection(const Collection(
+  collection.registerCollection(Collection(
     id: 'characters',
     name: '캐릭터',
     description: '모든 캐릭터를 수집하세요',

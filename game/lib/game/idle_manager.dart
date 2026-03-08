@@ -1,58 +1,80 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:mg_common_game/systems/idle/idle_config.dart';
+import 'package:mg_common_game/systems/idle/legacy_idle_adapter.dart';
+import 'package:mg_common_game/systems/idle/unified_idle_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// 방치 수익 시스템 관리
 class IdleManager extends ChangeNotifier {
   static const String _keyLastOnlineTime = 'last_online_time';
   static const String _keyIdleProductionRate = 'idle_production_rate';
+  static const String _legacyRateModifierId = 'mg0010_legacy_idle_rate';
 
+  late final IdleConfig _config;
+  UnifiedIdleManager? _unified;
   DateTime? _lastOnlineTime;
   int _idleProductionRate = 1; // 시간당 골드 생산량
   int _offlineGoldEarned = 0;
-
-  // 최대 오프라인 보상 시간 (시간 단위)
-  static const int maxOfflineHours = 2;
 
   int get idleProductionRate => _idleProductionRate;
   int get offlineGoldEarned => _offlineGoldEarned;
 
   /// 앱 시작 시 호출 - 오프라인 보상 계산
   Future<void> initialize() async {
-    final prefs = await SharedPreferences.getInstance();
+    _config = LegacyIdleAdapter.detectConfig('mg-game-0010');
+    _unified = UnifiedIdleManager(config: _config);
 
-    // 마지막 온라인 시간 불러오기
+    final prefs = await SharedPreferences.getInstance();
+    _idleProductionRate = prefs.getInt(_keyIdleProductionRate) ?? 1;
+
     final lastOnlineStr = prefs.getString(_keyLastOnlineTime);
     if (lastOnlineStr != null) {
-      _lastOnlineTime = DateTime.parse(lastOnlineStr);
-      _calculateOfflineRewards();
+      _lastOnlineTime = DateTime.tryParse(lastOnlineStr);
     }
 
-    // 방치 생산률 불러오기
-    _idleProductionRate = prefs.getInt(_keyIdleProductionRate) ?? 1;
+    _applyLegacyRateModifier();
+    _refreshOfflineRewards();
 
     notifyListeners();
   }
 
-  /// 오프라인 보상 계산
-  void _calculateOfflineRewards() {
-    if (_lastOnlineTime == null) return;
+  void _applyLegacyRateModifier() {
+    final unified = _unified;
+    if (unified == null) {
+      return;
+    }
 
-    final now = DateTime.now();
-    final offlineDuration = now.difference(_lastOnlineTime!);
-    final offlineHours = offlineDuration.inHours;
+    final baseRate = _config.baseProductionRate;
+    final multiplier = baseRate <= 0 ? 0.0 : _idleProductionRate / baseRate;
+    unified.addModifier(
+      IdleModifier(
+        id: _legacyRateModifierId,
+        value: multiplier,
+        type: IdleModifierType.multiplicative,
+      ),
+    );
+  }
 
-    // 최대 시간 제한
-    final cappedHours = offlineHours > maxOfflineHours ? maxOfflineHours : offlineHours;
+  void _refreshOfflineRewards() {
+    final lastOnlineTime = _lastOnlineTime;
+    final unified = _unified;
 
-    // 보상 계산 (시간당 생산량)
-    _offlineGoldEarned = cappedHours * _idleProductionRate;
+    if (lastOnlineTime == null || unified == null) {
+      _offlineGoldEarned = 0;
+      return;
+    }
+
+    final reward = unified.getOfflineReward(lastOnlineTime, _config.offlineCaps);
+    _offlineGoldEarned = reward.amount.floor();
   }
 
   /// 오프라인 보상 수령
   int claimOfflineRewards() {
+    _refreshOfflineRewards();
+
     final reward = _offlineGoldEarned;
     _offlineGoldEarned = 0;
+
     notifyListeners();
     return reward;
   }
@@ -60,6 +82,8 @@ class IdleManager extends ChangeNotifier {
   /// 방치 생산률 업그레이드
   Future<void> upgradeIdleProduction(int amount) async {
     _idleProductionRate += amount;
+    _applyLegacyRateModifier();
+    _refreshOfflineRewards();
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_keyIdleProductionRate, _idleProductionRate);
@@ -69,8 +93,15 @@ class IdleManager extends ChangeNotifier {
 
   /// 앱 종료 시 호출 - 현재 시간 저장
   Future<void> saveLastOnlineTime() async {
+    _unified?.saveState();
+
+    final now = DateTime.now();
+    _lastOnlineTime = now;
+
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyLastOnlineTime, DateTime.now().toIso8601String());
+    await prefs.setString(_keyLastOnlineTime, now.toIso8601String());
+
+    notifyListeners();
   }
 
   /// 오프라인 보상이 있는지 확인
