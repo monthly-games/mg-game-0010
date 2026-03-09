@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mg_common_game/core/ui/screens/daily_hub_screen.dart';
-import 'package:mg_common_game/systems/retention/daily_challenge_manager.dart';
-import 'package:mg_common_game/systems/retention/streak_manager.dart';
-import 'package:mg_common_game/systems/retention/login_rewards_manager.dart';
 import 'package:mg_common_game/systems/systems.dart' hide CraftingManager, IdleManager;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -104,16 +100,6 @@ Future<void> _initializeSystems() async {
   if (!GetIt.I.isRegistered<PrestigeManager>()) {
     final prestigeManager = PrestigeManager();
     GetIt.I.registerSingleton(prestigeManager);
-  // ── Retention Systems for DailyHub ────────────────────────
-  if (!GetIt.I.isRegistered<LoginRewardsManager>()) {
-    GetIt.I.registerSingleton(LoginRewardsManager());
-  }
-  if (!GetIt.I.isRegistered<StreakManager>()) {
-    GetIt.I.registerSingleton(StreakManager());
-  }
-  if (!GetIt.I.isRegistered<DailyChallengeManager>()) {
-    GetIt.I.registerSingleton(DailyChallengeManager());
-  }
     _setupPrestige(prestigeManager);
     await prestigeManager.loadPrestigeData();
   }
@@ -313,16 +299,6 @@ class DungeonShopApp extends StatelessWidget {
         title: 'Dungeon Shop Simulator',
         debugShowCheckedModeBanner: false,
         theme: _buildTheme(),
-        routes: {
-        '/daily-hub': (context) => DailyHubScreen(
-          questManager: GetIt.I<DailyQuestManager>(),
-          loginRewardsManager: GetIt.I<LoginRewardsManager>(),
-          streakManager: GetIt.I<StreakManager>(),
-          challengeManager: GetIt.I<DailyChallengeManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-        ),
-        },
         home: const MainScreen(),
       ),
     );

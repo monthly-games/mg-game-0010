@@ -345,7 +345,7 @@
     },
     {
       "name": "mg_common_game",
-      "rootUri": "../../libs/mg_common_game",
+      "rootUri": "../../../mg-common-game",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },

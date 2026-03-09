@@ -9,7 +9,6 @@ class MGIdleShopHud extends StatelessWidget {
   final int itemsCrafted;
   final String currentTab;
   final VoidCallback? onSettings;
-  final VoidCallback? onDailyHub;
 
   const MGIdleShopHud({
     super.key,
@@ -18,7 +17,6 @@ class MGIdleShopHud extends StatelessWidget {
     this.itemsCrafted = 0,
     this.currentTab = 'shop',
     this.onSettings,
-    this.onDailyHub,
   });
 
   @override
@@ -50,16 +48,6 @@ class MGIdleShopHud extends StatelessWidget {
                 ),
 
                 // 설정 버튼
-        if (onDailyHub != null)
-          MGIconButton(
-            icon: Icons.calendar_today,
-            onPressed: onDailyHub,
-            size: 44,
-            backgroundColor: MGColors.info.withValues(alpha: 0.8),
-            color: MGColors.textHighEmphasis,
-            tooltip: 'Daily Hub',
-          ),
-        MGSpacing.hXs,
                 if (onSettings != null)
                   MGIconButton(
                     icon: Icons.settings,

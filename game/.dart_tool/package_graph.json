@@ -67,6 +67,17 @@
       "dependencies": []
     },
     {
+      "name": "firebase_analytics",
+      "version": "10.10.7",
+      "dependencies": [
+        "firebase_analytics_platform_interface",
+        "firebase_analytics_web",
+        "firebase_core",
+        "firebase_core_platform_interface",
+        "flutter"
+      ]
+    },
+    {
       "name": "firebase_core",
       "version": "2.32.0",
       "dependencies": [
@@ -120,17 +131,6 @@
         "json_annotation",
         "shared_preferences",
         "vibration"
-      ]
-    },
-    {
-      "name": "firebase_analytics",
-      "version": "10.10.7",
-      "dependencies": [
-        "firebase_analytics_platform_interface",
-        "firebase_analytics_web",
-        "firebase_core",
-        "firebase_core_platform_interface",
-        "flutter"
       ]
     },
     {
@@ -290,6 +290,51 @@
       ]
     },
     {
+      "name": "firebase_core_platform_interface",
+      "version": "5.4.2",
+      "dependencies": [
+        "collection",
+        "flutter",
+        "flutter_test",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "firebase_analytics_web",
+      "version": "0.5.7+7",
+      "dependencies": [
+        "_flutterfire_internals",
+        "firebase_analytics_platform_interface",
+        "firebase_core",
+        "firebase_core_web",
+        "flutter",
+        "flutter_web_plugins"
+      ]
+    },
+    {
+      "name": "firebase_analytics_platform_interface",
+      "version": "3.10.8",
+      "dependencies": [
+        "_flutterfire_internals",
+        "firebase_core",
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "firebase_core_web",
+      "version": "2.24.0",
+      "dependencies": [
+        "firebase_core_platform_interface",
+        "flutter",
+        "flutter_web_plugins",
+        "meta",
+        "web"
+      ]
+    },
+    {
       "name": "shared_preferences_windows",
       "version": "2.4.1",
       "dependencies": [
@@ -351,14 +396,6 @@
       "name": "ordered_set",
       "version": "8.0.0",
       "dependencies": []
-    },
-    {
-      "name": "vibration",
-      "version": "1.9.0",
-      "dependencies": [
-        "flutter",
-        "vibration_platform_interface"
-      ]
     },
     {
       "name": "json_annotation",
@@ -433,17 +470,6 @@
         "firebase_crashlytics_platform_interface",
         "flutter",
         "stack_trace"
-      ]
-    },
-    {
-      "name": "firebase_analytics_platform_interface",
-      "version": "3.10.8",
-      "dependencies": [
-        "_flutterfire_internals",
-        "firebase_core",
-        "flutter",
-        "meta",
-        "plugin_platform_interface"
       ]
     },
     {
@@ -537,6 +563,36 @@
       ]
     },
     {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "_flutterfire_internals",
+      "version": "1.3.35",
+      "dependencies": [
+        "collection",
+        "firebase_core",
+        "firebase_core_platform_interface",
+        "flutter",
+        "meta"
+      ]
+    },
+    {
+      "name": "web",
+      "version": "1.1.1",
+      "dependencies": []
+    },
+    {
       "name": "path_provider_windows",
       "version": "2.3.0",
       "dependencies": [
@@ -564,25 +620,6 @@
       ]
     },
     {
-      "name": "web",
-      "version": "1.1.1",
-      "dependencies": []
-    },
-    {
-      "name": "flutter_web_plugins",
-      "version": "0.0.0",
-      "dependencies": [
-        "flutter"
-      ]
-    },
-    {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
-        "meta"
-      ]
-    },
-    {
       "name": "path_provider_linux",
       "version": "2.2.1",
       "dependencies": [
@@ -591,15 +628,6 @@
         "path",
         "path_provider_platform_interface",
         "xdg_directories"
-      ]
-    },
-    {
-      "name": "vibration_platform_interface",
-      "version": "0.0.3",
-      "dependencies": [
-        "device_info_plus",
-        "flutter",
-        "plugin_platform_interface"
       ]
     },
     {
@@ -641,6 +669,40 @@
       ]
     },
     {
+      "name": "firebase_remote_config_web",
+      "version": "1.6.7",
+      "dependencies": [
+        "firebase_core",
+        "firebase_core_web",
+        "firebase_remote_config_platform_interface",
+        "flutter",
+        "flutter_web_plugins"
+      ]
+    },
+    {
+      "name": "firebase_remote_config_platform_interface",
+      "version": "1.4.35",
+      "dependencies": [
+        "_flutterfire_internals",
+        "firebase_core",
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "firebase_crashlytics_platform_interface",
+      "version": "3.6.35",
+      "dependencies": [
+        "_flutterfire_internals",
+        "collection",
+        "firebase_core",
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "vm_service",
       "version": "15.0.2",
       "dependencies": []
@@ -661,21 +723,6 @@
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "device_info_plus",
-      "version": "11.5.0",
-      "dependencies": [
-        "device_info_plus_platform_interface",
-        "ffi",
-        "file",
-        "flutter",
-        "flutter_web_plugins",
-        "meta",
-        "web",
-        "win32",
-        "win32_registry"
       ]
     },
     {
@@ -790,31 +837,6 @@
       ]
     },
     {
-      "name": "win32_registry",
-      "version": "2.1.0",
-      "dependencies": [
-        "ffi",
-        "meta",
-        "win32"
-      ]
-    },
-    {
-      "name": "win32",
-      "version": "5.15.0",
-      "dependencies": [
-        "ffi"
-      ]
-    },
-    {
-      "name": "device_info_plus_platform_interface",
-      "version": "7.0.3",
-      "dependencies": [
-        "flutter",
-        "meta",
-        "plugin_platform_interface"
-      ]
-    },
-    {
       "name": "wasm_ffi",
       "version": "2.0.7",
       "dependencies": [
@@ -864,82 +886,60 @@
       ]
     },
     {
-      "name": "firebase_core_platform_interface",
-      "version": "5.4.2",
+      "name": "vibration",
+      "version": "1.9.0",
       "dependencies": [
-        "collection",
         "flutter",
-        "flutter_test",
-        "meta",
+        "vibration_platform_interface"
+      ]
+    },
+    {
+      "name": "vibration_platform_interface",
+      "version": "0.0.3",
+      "dependencies": [
+        "device_info_plus",
+        "flutter",
         "plugin_platform_interface"
       ]
     },
     {
-      "name": "firebase_core_web",
-      "version": "2.24.0",
+      "name": "device_info_plus",
+      "version": "11.5.0",
       "dependencies": [
-        "firebase_core_platform_interface",
+        "device_info_plus_platform_interface",
+        "ffi",
+        "file",
         "flutter",
         "flutter_web_plugins",
         "meta",
-        "web"
+        "web",
+        "win32",
+        "win32_registry"
       ]
     },
     {
-      "name": "firebase_remote_config_platform_interface",
-      "version": "1.4.35",
+      "name": "win32_registry",
+      "version": "2.1.0",
       "dependencies": [
-        "_flutterfire_internals",
-        "firebase_core",
+        "ffi",
+        "meta",
+        "win32"
+      ]
+    },
+    {
+      "name": "win32",
+      "version": "5.15.0",
+      "dependencies": [
+        "ffi"
+      ]
+    },
+    {
+      "name": "device_info_plus_platform_interface",
+      "version": "7.0.3",
+      "dependencies": [
         "flutter",
         "meta",
         "plugin_platform_interface"
-      ]
-    },
-    {
-      "name": "firebase_analytics_web",
-      "version": "0.5.7+7",
-      "dependencies": [
-        "_flutterfire_internals",
-        "firebase_analytics_platform_interface",
-        "firebase_core",
-        "firebase_core_web",
-        "flutter",
-        "flutter_web_plugins"
-      ]
-    },
-    {
-      "name": "firebase_crashlytics_platform_interface",
-      "version": "3.6.35",
-      "dependencies": [
-        "_flutterfire_internals",
-        "collection",
-        "firebase_core",
-        "flutter",
-        "meta",
-        "plugin_platform_interface"
-      ]
-    },
-    {
-      "name": "firebase_remote_config_web",
-      "version": "1.6.7",
-      "dependencies": [
-        "firebase_core",
-        "firebase_core_web",
-        "firebase_remote_config_platform_interface",
-        "flutter",
-        "flutter_web_plugins"
-      ]
-    },
-    {
-      "name": "_flutterfire_internals",
-      "version": "1.3.35",
-      "dependencies": [
-        "collection",
-        "firebase_core",
-        "firebase_core_platform_interface",
-        "flutter",
-        "meta"
       ]
     }
   ],

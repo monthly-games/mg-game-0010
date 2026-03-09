@@ -451,7 +451,7 @@ packages:
   mg_common_game:
     dependency: "direct main"
     description:
-      path: "../libs/mg_common_game"
+      path: "../../mg-common-game"
       relative: true
     source: path
     version: "1.0.0"
