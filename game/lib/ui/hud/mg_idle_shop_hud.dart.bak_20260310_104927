@@ -10,9 +10,6 @@ class MGIdleShopHud extends StatelessWidget {
   final String currentTab;
   final VoidCallback? onSettings;
   final VoidCallback? onDailyHub;
-  final VoidCallback? onGuildWar;
-  final VoidCallback? onTournament;
-  final VoidCallback? onSeasonalEvent;
 
   const MGIdleShopHud({
     super.key,
@@ -22,9 +19,6 @@ class MGIdleShopHud extends StatelessWidget {
     this.currentTab = 'shop',
     this.onSettings,
     this.onDailyHub,
-    this.onGuildWar,
-    this.onTournament,
-    this.onSeasonalEvent,
   });
 
   @override
@@ -56,36 +50,6 @@ class MGIdleShopHud extends StatelessWidget {
                 ),
 
                 // 설정 버튼
-        if (onGuildWar != null)
-          MGIconButton(
-            icon: Icons.shield,
-            onPressed: onGuildWar,
-            size: 44,
-            backgroundColor: MGColors.info.withValues(alpha: 0.8),
-            color: MGColors.textHighEmphasis,
-            tooltip: 'Guild War',
-          ),
-        MGSpacing.hXs,
-        if (onTournament != null)
-          MGIconButton(
-            icon: Icons.emoji_events,
-            onPressed: onTournament,
-            size: 44,
-            backgroundColor: MGColors.info.withValues(alpha: 0.8),
-            color: MGColors.textHighEmphasis,
-            tooltip: 'Tournament',
-          ),
-        MGSpacing.hXs,
-        if (onSeasonalEvent != null)
-          MGIconButton(
-            icon: Icons.celebration,
-            onPressed: onSeasonalEvent,
-            size: 44,
-            backgroundColor: MGColors.info.withValues(alpha: 0.8),
-            color: MGColors.textHighEmphasis,
-            tooltip: 'Seasonal Event',
-          ),
-        MGSpacing.hXs,
         if (onDailyHub != null)
           MGIconButton(
             icon: Icons.calendar_today,

@@ -14,7 +14,6 @@
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 import 'package:mg_common_game/systems/collection/collection_manager.dart';
@@ -26,7 +25,9 @@ import 'package:mg_common_game/systems/collection/collection.dart';
 /// Access pattern: `GetIt.I<CollectionManager>()` registered in main.dart.
 /// Uses mg_common_game shared widgets: [MGCard], [MGLinearProgress], [MGButton].
 class CollectionScreen extends StatefulWidget {
-  const CollectionScreen({super.key});
+  const CollectionScreen({super.key, required this.collectionManager});
+
+  final CollectionManager collectionManager;
 
   @override
   State<CollectionScreen> createState() => _CollectionScreenState();
@@ -41,7 +42,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
   @override
   void initState() {
     super.initState();
-    _collectionManager = GetIt.I<CollectionManager>();
+    _collectionManager = widget.collectionManager;
     _collectionManager.addListener(_onCollectionChanged);
 
     // Firebase Analytics: screen_view event
