@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../core/models/item.dart';
 import '../core/models/material.dart';
 import '../core/models/recipe.dart';
-import '../core/data/game_data.dart';
 
 /// Manages the Shop's state: Gold, Inventory, Display Slots.
 class ShopManager extends ChangeNotifier {
@@ -18,6 +15,38 @@ class ShopManager extends ChangeNotifier {
 
   // Display Slots (Simple version: Index -> Item)
   final List<Item?> _displaySlots = List.filled(3, null); // Start with 3 slots
+
+  // Upgrades
+  int _unlockedSlots = 3;
+  int _marketingLevel = 0;
+
+  int get unlockedSlots => _unlockedSlots;
+  int get marketingLevel => _marketingLevel;
+  int get nextSlotCost => 500 * (_unlockedSlots - 2);
+  int get nextMarketingCost => 300 * (_marketingLevel + 1);
+
+  bool buySlotUpgrade() {
+    if (trySpendGold(nextSlotCost)) {
+      _unlockedSlots++;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  bool buyMarketingUpgrade() {
+    if (trySpendGold(nextMarketingCost)) {
+      _marketingLevel++;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  /// Save state to SharedPreferences
+  Future<void> saveState() async {
+    // Placeholder — actual persistence implementation pending
+  }
 
   // Getters
   Map<MaterialItem, int> get materials => Map.unmodifiable(_materials);

@@ -1,25 +1,9 @@
+import 'package:mg_common_game/mg_common_game.dart' hide CraftingManager, ShopManager, UnifiedIdleManager;
 import 'package:flutter/material.dart';
-import 'package:mg_common_game/core/ui/screens/seasonal_event_screen.dart';
-import 'package:mg_common_game/core/ui/screens/tournament_screen.dart';
-import 'package:mg_common_game/core/ui/screens/guild_war_screen.dart';
-import 'package:mg_common_game/systems/events/seasonal_content_manager.dart';
-import 'package:mg_common_game/systems/competitive/tournament_manager.dart';
-import 'package:mg_common_game/systems/social/guild_war_manager.dart';
-import 'package:mg_common_game/core/ui/screens/daily_hub_screen.dart';
-import 'package:mg_common_game/systems/retention/daily_challenge_manager.dart';
-import 'package:mg_common_game/systems/retention/streak_manager.dart';
-import 'package:mg_common_game/systems/retention/login_rewards_manager.dart';
-import 'package:mg_common_game/systems/systems.dart' hide CraftingManager, IdleManager;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:mg_common_game/systems/quests/daily_quest.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
-import 'package:mg_common_game/systems/progression/progression_manager.dart';
-import 'package:mg_common_game/systems/progression/achievement_manager.dart';
-import 'package:mg_common_game/systems/settings/settings_manager.dart';
-import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 import 'firebase_options.dart';
 import 'game/shop_manager.dart';
 import 'game/crafting_manager.dart';
@@ -27,8 +11,9 @@ import 'game/dungeon_manager.dart';
 import 'game/idle_manager.dart';
 import 'game/customer_manager.dart';
 import 'ui/main_screen.dart';
-import 'package:mg_common_game/systems/progression/prestige_manager.dart';
 import 'screens/collection_screen.dart';
+import 'game/tutorial_config.dart';
+import 'game/balancing_config.dart';
 
 // ============================================================
 // Dungeon Shop Simulator — MG-0010
@@ -62,6 +47,21 @@ void main() async {
 _registerCollections();
   }
   _registerDailyQuests();
+  // ── Tutorial & Balancing (v1.2.0 pilot) ─────────────────────
+  if (!GetIt.I.isRegistered<TutorialManager>()) {
+    final tutorialManager = TutorialManager();
+    await tutorialManager.initialize();
+    tutorialManager.registerTutorial(
+      kOnboardingTutorial.id,
+      kOnboardingTutorial.steps,
+    );
+    GetIt.I.registerSingleton<TutorialManager>(tutorialManager);
+  }
+  if (!GetIt.I.isRegistered<BalancingManager>()) {
+    GetIt.I.registerSingleton<BalancingManager>(
+      BalancingManager(defaultConfig: kDefaultBalancingConfig),
+    );
+  }
   runApp(const DungeonShopApp());
 }
 
@@ -107,10 +107,10 @@ Future<void> _initializeSystems() async {
     di.registerSingleton<DungeonManager>(DungeonManager());
   }
 
-  if (!di.isRegistered<IdleManager>()) {
-    final idleManager = IdleManager();
+  if (!di.isRegistered<UnifiedIdleManager>()) {
+    final idleManager = UnifiedIdleManager();
     await idleManager.initialize();
-    di.registerSingleton<IdleManager>(idleManager);
+    di.registerSingleton<UnifiedIdleManager>(idleManager);
   }
 
   if (!di.isRegistered<CustomerManager>()) {
@@ -320,7 +320,7 @@ class DungeonShopApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: GetIt.I<ShopManager>()),
         ChangeNotifierProvider.value(value: GetIt.I<CraftingManager>()),
         ChangeNotifierProvider.value(value: GetIt.I<DungeonManager>()),
-        ChangeNotifierProvider.value(value: GetIt.I<IdleManager>()),
+        ChangeNotifierProvider.value(value: GetIt.I<UnifiedIdleManager>()),
         ChangeNotifierProvider.value(value: GetIt.I<CustomerManager>()),
         ChangeNotifierProvider.value(value: GetIt.I<UpgradeManager>()),
         ChangeNotifierProvider.value(value: GetIt.I<ProgressionManager>()),

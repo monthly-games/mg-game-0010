@@ -15,7 +15,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
-import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 import 'package:mg_common_game/systems/collection/collection_manager.dart';
 import 'package:mg_common_game/systems/collection/collection.dart';
 
@@ -383,9 +382,9 @@ class _CollectionScreenState extends State<CollectionScreen> {
                 ),
                 decoration: BoxDecoration(
                   color: isClaimed
-                      ? MGColors.success.withOpacity(0.2)
+                      ? MGColors.success.withValues(alpha: 0.2)
                       : isAvailable
-                          ? MGColors.warning.withOpacity(0.2)
+                          ? MGColors.warning.withValues(alpha: 0.2)
                           : MGColors.surfaceDark,
                   border: Border.all(
                     color: isClaimed
@@ -481,7 +480,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
   Widget _buildItemTile(CollectionItem item, bool isUnlocked) {
     return Container(
       decoration: BoxDecoration(
-        color: isUnlocked ? item.rarity.color.withOpacity(0.2) : MGColors.surfaceDark,
+        color: isUnlocked ? item.rarity.color.withValues(alpha: 0.2) : MGColors.surfaceDark,
         border: Border.all(
           color: isUnlocked ? item.rarity.color : MGColors.border,
           width: 2,
@@ -506,7 +505,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
           if (!isUnlocked)
             Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Icon(
@@ -523,7 +522,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
   // ── Item placeholder ─────────────────────────────────────
   Widget _buildPlaceholder(CollectionItem item, bool isUnlocked) {
     return Container(
-      color: isUnlocked ? item.rarity.color.withOpacity(0.1) : MGColors.surfaceDark,
+      color: isUnlocked ? item.rarity.color.withValues(alpha: 0.1) : MGColors.surfaceDark,
       child: Center(
         child: Icon(
           Icons.image,

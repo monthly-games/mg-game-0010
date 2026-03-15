@@ -6,37 +6,37 @@ import 'package:flutter/material.dart';
 
 /// VFX Manager for Dungeon Shop Simulator (MG-0010)
 /// Shop Management + Idle 게임 전용 이펙트 관리자
-class VfxManager extends Component with HasGameRef {
+class VfxManager extends Component with HasGameReference {
   VfxManager();
   final Random _random = Random();
 
   // Shop/Crafting Effects
   void showItemCraft(Vector2 position, {bool isRare = false}) {
     final color = isRare ? Colors.purple : Colors.amber;
-    gameRef.add(_createBurstEffect(position: position, color: color, count: isRare ? 25 : 15, speed: 80, lifespan: 0.6));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.white, count: 10));
+    game.add(_createBurstEffect(position: position, color: color, count: isRare ? 25 : 15, speed: 80, lifespan: 0.6));
+    game.add(_createSparkleEffect(position: position, color: Colors.white, count: 10));
   }
 
   void showSaleComplete(Vector2 position, int goldAmount) {
-    gameRef.add(_createCoinEffect(position: position, count: (goldAmount / 30).clamp(5, 20).toInt()));
+    game.add(_createCoinEffect(position: position, count: (goldAmount / 30).clamp(5, 20).toInt()));
     showNumberPopup(position, '+$goldAmount', color: Colors.amber);
   }
 
   void showCustomerHappy(Vector2 position) {
-    gameRef.add(_createRisingEffect(position: position, color: Colors.pink, count: 5, speed: 40));
+    game.add(_createRisingEffect(position: position, color: Colors.pink, count: 5, speed: 40));
   }
 
   void showShopUpgrade(Vector2 position) {
-    gameRef.add(_createExplosionEffect(position: position, color: Colors.amber, count: 35, radius: 70));
-    gameRef.add(_UpgradeText(position: position));
+    game.add(_createExplosionEffect(position: position, color: Colors.amber, count: 35, radius: 70));
+    game.add(_UpgradeText(position: position));
   }
 
   void showInventoryAdd(Vector2 position) {
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.lightBlue, count: 8));
+    game.add(_createSparkleEffect(position: position, color: Colors.lightBlue, count: 8));
   }
 
   void showNumberPopup(Vector2 position, String text, {Color color = Colors.white}) {
-    gameRef.add(_NumberPopup(position: position, text: text, color: color));
+    game.add(_NumberPopup(position: position, text: text, color: color));
   }
 
   // Private generators (reusable)

@@ -5,7 +5,7 @@ import 'package:mg_common_game/systems/idle/unified_idle_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// 방치 수익 시스템 관리
-class IdleManager extends ChangeNotifier {
+class UnifiedIdleManager extends ChangeNotifier {
   static const String _keyLastOnlineTime = 'last_online_time';
   static const String _keyIdleProductionRate = 'idle_production_rate';
   static const String _legacyRateModifierId = 'mg0010_legacy_idle_rate';

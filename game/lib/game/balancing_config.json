@@ -1,0 +1,35 @@
+{
+  "gameId": "mg-0010",
+  "version": 1,
+  "currencies": [
+    {
+      "id": "gold",
+      "baseEarnRate": 10.0,
+      "earnCurve": "linear",
+      "earnGrowthFactor": 1.1,
+      "baseSpendRate": 1.0,
+      "spendCurve": "exponential",
+      "spendGrowthFactor": 1.15,
+      "inflationCap": 100.0
+    }
+  ],
+  "xpCurve": {
+    "baseXp": 100,
+    "curveType": "exponential",
+    "growthFactor": 1.5,
+    "maxLevel": 100,
+    "flatBonus": 0
+  },
+  "difficultyScaling": {
+    "baseDifficulty": 1.0,
+    "curveType": "logarithmic",
+    "scalingFactor": 0.1,
+    "maxDifficulty": 10.0,
+    "minDifficulty": 0.5
+  },
+  "customParams": {
+    "reward_multiplier": 1.0,
+    "craft_speed_base": 1.0,
+    "customer_rate_base": 1.0
+  }
+}

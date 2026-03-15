@@ -10,7 +10,6 @@ import 'package:mg_common_game/core/ui/mg_ui.dart';
 import 'package:mg_common_game/core/ui/widgets/gacha/gacha_pull_animation.dart';
 import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
 import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
-import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 const int _kSinglePullCost = 160;
 const int _kMultiPullCost = 1600;
@@ -142,7 +141,7 @@ class _GachaScreenState extends State<GachaScreen>
   Widget build(BuildContext context) {
     if (_pullResults != null) {
       return Scaffold(
-        backgroundColor: MGColors.backgroundDarkDark,
+        backgroundColor: MGColors.backgroundDark,
         body: SafeArea(
           child: Column(
             children: [
@@ -175,7 +174,7 @@ class _GachaScreenState extends State<GachaScreen>
                     onPressed: _dismissResults,
                     size: MGButtonSize.large,
                     width: double.infinity,
-                    backgroundColor: MGColors.primaryActionAction,
+                    backgroundColor: MGColors.primaryAction,
                   ),
                 ),
             ],
@@ -185,7 +184,7 @@ class _GachaScreenState extends State<GachaScreen>
     }
 
     return Scaffold(
-      backgroundColor: MGColors.backgroundDarkDark,
+      backgroundColor: MGColors.backgroundDark,
       body: SafeArea(
         child: Column(
           children: [
@@ -317,7 +316,7 @@ class _GachaScreenState extends State<GachaScreen>
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: pools.length,
-        separatorBuilder: (_, __) => SizedBox(width: MGSpacing.sm),
+        separatorBuilder: (_, _) => SizedBox(width: MGSpacing.sm),
         itemBuilder: (context, index) {
           final pool = pools[index];
           final isSelected = pool.id == _selectedPoolId;
@@ -637,7 +636,6 @@ class _GachaScreenState extends State<GachaScreen>
       GachaRarity.superRare => MGColors.epic,
       GachaRarity.ultraRare => MGColors.legendary,
       GachaRarity.legendary => MGColors.mythic,
-      _ => MGColors.common,
     };
   }
 

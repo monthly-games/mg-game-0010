@@ -2,7 +2,7 @@
 library;
 
 import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/gacha/gacha_config.dart';
+import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
 import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
 
 /// 게임 내 Item 모델
@@ -42,7 +42,7 @@ class ItemGachaAdapter extends ChangeNotifier {
   void _initPool() {
     final pool = GachaPool(
       id: _poolId,
-      name: 'Idle Shop 가챠',
+      nameKr: 'Idle Shop 가챠',
       items: _generateItems(),
       startDate: DateTime.now().subtract(const Duration(days: 1)),
       endDate: DateTime.now().add(const Duration(days: 365)),
@@ -53,30 +53,30 @@ class ItemGachaAdapter extends ChangeNotifier {
   List<GachaItem> _generateItems() {
     return [
       // UR (0.6%)
-      GachaItem(id: 'ur_shop_001', name: '전설의 Item', rarity: GachaRarity.ultraRare, weight: 1.0),
-      GachaItem(id: 'ur_shop_002', name: '신화의 Item', rarity: GachaRarity.ultraRare, weight: 1.0),
+      GachaItem(id: 'ur_shop_001', nameKr: '전설의 Item', rarity: GachaRarity.ultraRare),
+      GachaItem(id: 'ur_shop_002', nameKr: '신화의 Item', rarity: GachaRarity.ultraRare),
       // SSR (2.4%)
-      GachaItem(id: 'ssr_shop_001', name: '영웅의 Item', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_shop_002', name: '고대의 Item', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_shop_003', name: '황금의 Item', rarity: GachaRarity.superSuperRare, weight: 1.0),
+      GachaItem(id: 'ssr_shop_001', nameKr: '영웅의 Item', rarity: GachaRarity.superRare),
+      GachaItem(id: 'ssr_shop_002', nameKr: '고대의 Item', rarity: GachaRarity.superRare),
+      GachaItem(id: 'ssr_shop_003', nameKr: '황금의 Item', rarity: GachaRarity.superRare),
       // SR (12%)
-      GachaItem(id: 'sr_shop_001', name: '희귀한 Item A', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_shop_002', name: '희귀한 Item B', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_shop_003', name: '희귀한 Item C', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_shop_004', name: '희귀한 Item D', rarity: GachaRarity.superRare, weight: 1.0),
+      GachaItem(id: 'sr_shop_001', nameKr: '희귀한 Item A', rarity: GachaRarity.superRare),
+      GachaItem(id: 'sr_shop_002', nameKr: '희귀한 Item B', rarity: GachaRarity.superRare),
+      GachaItem(id: 'sr_shop_003', nameKr: '희귀한 Item C', rarity: GachaRarity.superRare),
+      GachaItem(id: 'sr_shop_004', nameKr: '희귀한 Item D', rarity: GachaRarity.superRare),
       // R (35%)
-      GachaItem(id: 'r_shop_001', name: '우수한 Item A', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_shop_002', name: '우수한 Item B', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_shop_003', name: '우수한 Item C', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_shop_004', name: '우수한 Item D', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_shop_005', name: '우수한 Item E', rarity: GachaRarity.rare, weight: 1.0),
+      GachaItem(id: 'r_shop_001', nameKr: '우수한 Item A', rarity: GachaRarity.rare),
+      GachaItem(id: 'r_shop_002', nameKr: '우수한 Item B', rarity: GachaRarity.rare),
+      GachaItem(id: 'r_shop_003', nameKr: '우수한 Item C', rarity: GachaRarity.rare),
+      GachaItem(id: 'r_shop_004', nameKr: '우수한 Item D', rarity: GachaRarity.rare),
+      GachaItem(id: 'r_shop_005', nameKr: '우수한 Item E', rarity: GachaRarity.rare),
       // N (50%)
-      GachaItem(id: 'n_shop_001', name: '일반 Item A', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_shop_002', name: '일반 Item B', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_shop_003', name: '일반 Item C', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_shop_004', name: '일반 Item D', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_shop_005', name: '일반 Item E', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_shop_006', name: '일반 Item F', rarity: GachaRarity.normal, weight: 1.0),
+      GachaItem(id: 'n_shop_001', nameKr: '일반 Item A', rarity: GachaRarity.normal),
+      GachaItem(id: 'n_shop_002', nameKr: '일반 Item B', rarity: GachaRarity.normal),
+      GachaItem(id: 'n_shop_003', nameKr: '일반 Item C', rarity: GachaRarity.normal),
+      GachaItem(id: 'n_shop_004', nameKr: '일반 Item D', rarity: GachaRarity.normal),
+      GachaItem(id: 'n_shop_005', nameKr: '일반 Item E', rarity: GachaRarity.normal),
+      GachaItem(id: 'n_shop_006', nameKr: '일반 Item F', rarity: GachaRarity.normal),
     ];
   }
 
@@ -98,7 +98,7 @@ class ItemGachaAdapter extends ChangeNotifier {
   Item _convertToItem(GachaItem item) {
     return Item(
       id: item.id,
-      name: item.name,
+      name: item.nameKr,
       rarity: item.rarity,
     );
   }

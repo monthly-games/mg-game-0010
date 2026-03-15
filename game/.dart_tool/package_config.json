@@ -8,6 +8,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "args",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.0",
       "packageUri": "lib/",
@@ -90,6 +96,12 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "dbus",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.12",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "device_info_plus",
@@ -176,6 +188,24 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "firebase_messaging",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-14.7.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_messaging_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging_platform_interface-4.5.37",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_messaging_web",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging_web-3.5.18",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "firebase_remote_config",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_remote_config-4.4.7",
       "packageUri": "lib/",
@@ -230,6 +260,24 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications-17.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_linux-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_platform_interface-7.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/Users/USER-5/develop/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -270,6 +318,30 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "in_app_purchase",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/in_app_purchase-3.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "in_app_purchase_android",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/in_app_purchase_android-0.4.0+8",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "in_app_purchase_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/in_app_purchase_platform_interface-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "in_app_purchase_storekit",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/in_app_purchase_storekit-0.4.8+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
     },
     {
       "name": "inject_js",
@@ -345,7 +417,7 @@
     },
     {
       "name": "mg_common_game",
-      "rootUri": "../../../mg-common-game",
+      "rootUri": "../../../../libs/mg_common_game",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -402,6 +474,12 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.3.0",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "petitparser",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-7.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
     },
     {
       "name": "platform",
@@ -518,6 +596,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "timezone",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/timezone-0.9.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
@@ -543,7 +627,7 @@
     },
     {
       "name": "vibration",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/vibration-1.9.0",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/vibration-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -612,6 +696,12 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "xml",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
     },
     {
       "name": "game",
