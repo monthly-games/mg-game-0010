@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:mg_common_game/systems/idle/idle_config.dart';
 import 'package:mg_common_game/systems/idle/legacy_idle_adapter.dart';
-import 'package:mg_common_game/systems/idle/unified_idle_manager.dart';
+import 'package:mg_common_game/systems/idle/unified_idle_manager.dart' as idle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// 방치 수익 시스템 관리
@@ -11,7 +11,7 @@ class UnifiedIdleManager extends ChangeNotifier {
   static const String _legacyRateModifierId = 'mg0010_legacy_idle_rate';
 
   late final IdleConfig _config;
-  UnifiedIdleManager? _unified;
+  idle.UnifiedIdleManager? _unified;
   DateTime? _lastOnlineTime;
   int _idleProductionRate = 1; // 시간당 골드 생산량
   int _offlineGoldEarned = 0;
@@ -22,7 +22,7 @@ class UnifiedIdleManager extends ChangeNotifier {
   /// 앱 시작 시 호출 - 오프라인 보상 계산
   Future<void> initialize() async {
     _config = LegacyIdleAdapter.detectConfig('mg-game-0010');
-    _unified = UnifiedIdleManager(config: _config);
+    _unified = idle.UnifiedIdleManager(config: _config);
 
     final prefs = await SharedPreferences.getInstance();
     _idleProductionRate = prefs.getInt(_keyIdleProductionRate) ?? 1;
