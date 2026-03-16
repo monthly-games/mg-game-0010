@@ -62,6 +62,14 @@ _registerCollections();
       BalancingManager(defaultConfig: kDefaultBalancingConfig),
     );
   }
+  // ── Q7 DI Fix: Missing Systems ──────────────────────────
+  if (!GetIt.I.isRegistered<BattlePassManager>()) {
+    GetIt.I.registerSingleton<BattlePassManager>(BattlePassManager());
+  }
+  if (!GetIt.I.isRegistered<GachaManager>()) {
+    GetIt.I.registerSingleton<GachaManager>(GachaManager());
+  }
+
   runApp(const DungeonShopApp());
 }
 
