@@ -45,7 +45,7 @@ class ShopManager extends ChangeNotifier {
 
   /// Save state to SharedPreferences
   Future<void> saveState() async {
-    // Placeholder — actual persistence implementation pending
+    // Placeholder -- actual persistence implementation pending
   }
 
   // Getters

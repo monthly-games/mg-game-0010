@@ -7,7 +7,7 @@ import 'package:mg_common_game/systems/progression/achievement_manager.dart';
 import 'models.dart';
 import 'shop_manager.dart';
 
-/// Customer type — affects item preferences and budget
+/// Customer type -- affects item preferences and budget
 enum CustomerType {
   warrior, // Prefers weapons
   mage, // Prefers potions and staves

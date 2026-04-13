@@ -1,8 +1,10 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/dungeon_manager.dart';
 import '../game/crafting_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class DungeonTab extends StatelessWidget {
   const DungeonTab({super.key});
@@ -18,17 +20,17 @@ class DungeonTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.terrain, size: 100, color: Colors.brown),
-                const SizedBox(height: 24),
+                const SizedBox(height: MGSpacing.lg),
                 const Text(
                   '던전 탐험',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: MGSpacing.md),
                 const Text(
                   '몬스터를 처치하고 재료를 획득하세요!',
                   style: TextStyle(fontSize: 16),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: MGSpacing.xl),
                 ElevatedButton.icon(
                   onPressed: () => dungeon.enterDungeon(),
                   icon: const Icon(Icons.play_arrow),
@@ -48,7 +50,7 @@ class DungeonTab extends StatelessWidget {
           children: [
             // 플레이어 상태
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(MGSpacing.md),
               color: MGColors.info.withValues(alpha: 0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,19 +62,19 @@ class DungeonTab extends StatelessWidget {
                         '플레이어',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: MGSpacing.xs),
                       Row(
                         children: [
                           const Icon(Icons.favorite, color: MGColors.error, size: 20),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: MGSpacing.xxs),
                           Text('${dungeon.playerHp} / ${dungeon.playerMaxHp}'),
                         ],
                       ),
                       Row(
                         children: [
                           const Icon(Icons.flash_on, color: MGColors.warning, size: 20),
-                          const SizedBox(width: 4),
-                          Text('공격력: ${dungeon.playerAttack}'),
+                          const SizedBox(width: MGSpacing.xxs),
+                          Text('${dungeon.playerAttack}'),
                         ],
                       ),
                     ],
@@ -90,7 +92,7 @@ class DungeonTab extends StatelessWidget {
             // 몬스터
             if (dungeon.currentMonster != null) ...[
               Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(MGSpacing.lg),
                 decoration: BoxDecoration(
                   color: MGColors.error.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(16),
@@ -102,7 +104,7 @@ class DungeonTab extends StatelessWidget {
                       size: 80,
                       color: Colors.red[300],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: MGSpacing.md),
                     Text(
                       dungeon.currentMonster!.name,
                       style: const TextStyle(
@@ -110,20 +112,20 @@ class DungeonTab extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: MGSpacing.xs),
                     LinearProgressIndicator(
                       value: dungeon.currentMonsterHp / dungeon.currentMonster!.hp,
                       backgroundColor: Colors.grey[700],
                       valueColor: const AlwaysStoppedAnimation<Color>(MGColors.error),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: MGSpacing.xxs),
                     Text('HP: ${dungeon.currentMonsterHp} / ${dungeon.currentMonster!.hp}'),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: MGSpacing.xs),
                     Text('공격력: ${dungeon.currentMonster!.attack}'),
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: MGSpacing.xl),
               ElevatedButton.icon(
                 onPressed: () {
                   final rewards = dungeon.attack();

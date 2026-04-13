@@ -1,8 +1,10 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../systems/dungeon_manager.dart';
 import '../core/data/game_data.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class DungeonScreen extends StatefulWidget {
   const DungeonScreen({super.key});
@@ -33,7 +35,7 @@ class _DungeonScreenState extends State<DungeonScreen> {
   Widget _buildSelectionView() {
     final dungeons = GameData.dungeons;
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(MGSpacing.md),
       itemCount: dungeons.length,
       itemBuilder: (context, index) {
         final dungeon = dungeons[index];
@@ -67,12 +69,12 @@ class _DungeonScreenState extends State<DungeonScreen> {
         children: [
           Text('Exploring ${dungeon.name}...',
               style: const TextStyle(fontSize: 20)),
-          const SizedBox(height: 20),
+          const SizedBox(height: MGSpacing.mdLg),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: LinearProgressIndicator(value: progress, minHeight: 10),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: MGSpacing.mdLg),
           Text('$remaining s remaining', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 40),
           TextButton(
@@ -91,12 +93,12 @@ class _DungeonScreenState extends State<DungeonScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.check_circle, color: MGColors.success, size: 60),
-          const SizedBox(height: 20),
+          const SizedBox(height: MGSpacing.mdLg),
           const Text('Exploration Complete!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
+          const SizedBox(height: MGSpacing.mdLg),
           const Text('Rewards:', style: TextStyle(fontSize: 18)),
-          const SizedBox(height: 10),
+          const SizedBox(height: MGSpacing.xsMd),
           if (rewards.isEmpty)
             const Text("No loot found...",
                 style: TextStyle(fontStyle: FontStyle.italic)),

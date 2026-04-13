@@ -1,17 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/idle/idle_config.dart';
-import 'package:mg_common_game/systems/idle/legacy_idle_adapter.dart';
-import 'package:mg_common_game/systems/idle/unified_idle_manager.dart' as idle;
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// 방치 수익 시스템 관리
+/// 방치 수익 시스템 관리 (MG-0010 simplified version)
 class UnifiedIdleManager extends ChangeNotifier {
   static const String _keyLastOnlineTime = 'last_online_time';
   static const String _keyIdleProductionRate = 'idle_production_rate';
-  static const String _legacyRateModifierId = 'mg0010_legacy_idle_rate';
 
-  late final IdleConfig _config;
-  idle.UnifiedIdleManager? _unified;
   DateTime? _lastOnlineTime;
   int _idleProductionRate = 1; // 시간당 골드 생산량
   int _offlineGoldEarned = 0;
@@ -21,9 +15,6 @@ class UnifiedIdleManager extends ChangeNotifier {
 
   /// 앱 시작 시 호출 - 오프라인 보상 계산
   Future<void> initialize() async {
-    _config = LegacyIdleAdapter.detectConfig('mg-game-0010');
-    _unified = idle.UnifiedIdleManager(config: _config);
-
     final prefs = await SharedPreferences.getInstance();
     _idleProductionRate = prefs.getInt(_keyIdleProductionRate) ?? 1;
 
@@ -32,40 +23,26 @@ class UnifiedIdleManager extends ChangeNotifier {
       _lastOnlineTime = DateTime.tryParse(lastOnlineStr);
     }
 
-    _applyLegacyRateModifier();
     _refreshOfflineRewards();
 
     notifyListeners();
   }
 
-  void _applyLegacyRateModifier() {
-    final unified = _unified;
-    if (unified == null) {
-      return;
-    }
-
-    final baseRate = _config.baseProductionRate;
-    final multiplier = baseRate <= 0 ? 0.0 : _idleProductionRate / baseRate;
-    unified.addModifier(
-      IdleModifier(
-        id: _legacyRateModifierId,
-        value: multiplier,
-        type: IdleModifierType.multiplicative,
-      ),
-    );
-  }
-
   void _refreshOfflineRewards() {
     final lastOnlineTime = _lastOnlineTime;
-    final unified = _unified;
 
-    if (lastOnlineTime == null || unified == null) {
+    if (lastOnlineTime == null) {
       _offlineGoldEarned = 0;
       return;
     }
 
-    final reward = unified.getOfflineReward(lastOnlineTime, _config.offlineCaps);
-    _offlineGoldEarned = reward.amount.floor();
+    // Calculate offline reward (max 2 hours, 120 minutes)
+    final now = DateTime.now();
+    final diff = now.difference(lastOnlineTime);
+    final offlineMinutes = diff.inMinutes.clamp(0, 120); // Max 2 hours
+
+    // Gold earned = production rate * hours
+    _offlineGoldEarned = (_idleProductionRate * (offlineMinutes / 60)).floor();
   }
 
   /// 오프라인 보상 수령
@@ -82,7 +59,6 @@ class UnifiedIdleManager extends ChangeNotifier {
   /// 방치 생산률 업그레이드
   Future<void> upgradeIdleProduction(int amount) async {
     _idleProductionRate += amount;
-    _applyLegacyRateModifier();
     _refreshOfflineRewards();
 
     final prefs = await SharedPreferences.getInstance();
@@ -93,8 +69,6 @@ class UnifiedIdleManager extends ChangeNotifier {
 
   /// 앱 종료 시 호출 - 현재 시간 저장
   Future<void> saveLastOnlineTime() async {
-    _unified?.saveState();
-
     final now = DateTime.now();
     _lastOnlineTime = now;
 

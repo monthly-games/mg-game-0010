@@ -1,7 +1,8 @@
 // ============================================================
-// Gacha Screen — MG-0010 Dungeon Shop Simulator
+// Gacha Screen -- MG-0010 Dungeon Shop Simulator
 // Genre: Idle Simulation · Gacha System UI
 // ============================================================
+
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,7 @@ class _GachaScreenState extends State<GachaScreen>
                 Padding(
                   padding: EdgeInsets.all(MGSpacing.lg),
                   child: MGButton(
-                    label: 'OK',
+                    label: 'COLLECT',
                     onPressed: _dismissResults,
                     size: MGButtonSize.large,
                     width: double.infinity,
@@ -512,7 +513,7 @@ class _GachaScreenState extends State<GachaScreen>
       children: [
         Expanded(
           child: GachaPullButton(
-            label: '1x Pull',
+            label: '1x PULL',
             cost: _kSinglePullCost,
             onPressed: _onSinglePull,
           ),
@@ -520,7 +521,7 @@ class _GachaScreenState extends State<GachaScreen>
         SizedBox(width: MGSpacing.md),
         Expanded(
           child: GachaPullButton(
-            label: '10x Pull',
+            label: '10x PULL',
             cost: _kMultiPullCost,
             onPressed: _onMultiPull,
           ),

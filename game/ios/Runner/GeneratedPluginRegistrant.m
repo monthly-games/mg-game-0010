@@ -12,16 +12,28 @@
 @import audioplayers_darwin;
 #endif
 
+#if __has_include(<cloud_firestore/FLTFirebaseFirestorePlugin.h>)
+#import <cloud_firestore/FLTFirebaseFirestorePlugin.h>
+#else
+@import cloud_firestore;
+#endif
+
 #if __has_include(<device_info_plus/FPPDeviceInfoPlusPlugin.h>)
 #import <device_info_plus/FPPDeviceInfoPlusPlugin.h>
 #else
 @import device_info_plus;
 #endif
 
-#if __has_include(<firebase_analytics/FLTFirebaseAnalyticsPlugin.h>)
-#import <firebase_analytics/FLTFirebaseAnalyticsPlugin.h>
+#if __has_include(<firebase_analytics/FirebaseAnalyticsPlugin.h>)
+#import <firebase_analytics/FirebaseAnalyticsPlugin.h>
 #else
 @import firebase_analytics;
+#endif
+
+#if __has_include(<firebase_auth/FLTFirebaseAuthPlugin.h>)
+#import <firebase_auth/FLTFirebaseAuthPlugin.h>
+#else
+@import firebase_auth;
 #endif
 
 #if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
@@ -42,8 +54,8 @@
 @import firebase_messaging;
 #endif
 
-#if __has_include(<firebase_remote_config/FLTFirebaseRemoteConfigPlugin.h>)
-#import <firebase_remote_config/FLTFirebaseRemoteConfigPlugin.h>
+#if __has_include(<firebase_remote_config/FirebaseRemoteConfigPlugin.h>)
+#import <firebase_remote_config/FirebaseRemoteConfigPlugin.h>
 #else
 @import firebase_remote_config;
 #endif
@@ -64,6 +76,12 @@
 #import <in_app_purchase_storekit/InAppPurchasePlugin.h>
 #else
 @import in_app_purchase_storekit;
+#endif
+
+#if __has_include(<integration_test/IntegrationTestPlugin.h>)
+#import <integration_test/IntegrationTestPlugin.h>
+#else
+@import integration_test;
 #endif
 
 #if __has_include(<path_provider_foundation/PathProviderPlugin.h>)
@@ -94,15 +112,18 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AudioplayersDarwinPlugin registerWithRegistrar:[registry registrarForPlugin:@"AudioplayersDarwinPlugin"]];
+  [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
-  [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
+  [FirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FirebaseAnalyticsPlugin"]];
+  [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseCrashlyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCrashlyticsPlugin"]];
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
-  [FLTFirebaseRemoteConfigPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseRemoteConfigPlugin"]];
+  [FirebaseRemoteConfigPlugin registerWithRegistrar:[registry registrarForPlugin:@"FirebaseRemoteConfigPlugin"]];
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
   [FLTGoogleMobileAdsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMobileAdsPlugin"]];
   [InAppPurchasePlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppPurchasePlugin"]];
+  [IntegrationTestPlugin registerWithRegistrar:[registry registrarForPlugin:@"IntegrationTestPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [VibrationPlugin registerWithRegistrar:[registry registrarForPlugin:@"VibrationPlugin"]];

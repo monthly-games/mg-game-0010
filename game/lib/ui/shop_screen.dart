@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 // Assuming common game is available
@@ -5,6 +6,7 @@ import '../systems/shop_manager.dart';
 import '../core/data/game_data.dart';
 import '../systems/audio_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -85,13 +87,13 @@ class _ShopScreenState extends State<ShopScreen>
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(MGSpacing.md),
           child: Text('Display Slots - Tap to Sell',
               style: TextStyle(fontSize: 18)),
         ),
         Expanded(
           child: GridView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(MGSpacing.md),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 10,
@@ -131,7 +133,7 @@ class _ShopScreenState extends State<ShopScreen>
                     _audio.playSuccess();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text('Sold ${item.name}!'),
+                          content: const Text('Sold!'),
                           duration: const Duration(milliseconds: 500)),
                     );
                   } else {
@@ -176,8 +178,8 @@ class _ShopScreenState extends State<ShopScreen>
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("Unlock New Slot?"),
-              content: Text("Expand your shop for $cost G?"),
+              title: const Text('Unlock New Slot'),
+              content: Text('Expand your shop for $cost gold'),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -190,10 +192,10 @@ class _ShopScreenState extends State<ShopScreen>
                     } else {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Not enough Gold!")));
+                          const SnackBar(content: Text('Not enough gold!')));
                     }
                   },
-                  child: const Text("Buy"),
+                  child: const Text('Buy for 5000 Gold'),
                 )
               ],
             ));
@@ -206,8 +208,8 @@ class _ShopScreenState extends State<ShopScreen>
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Marketing Level $level"),
-              content: Text("Increase customer traffic?\nCost: $cost G"),
+              title: Text('Marketing Level $level'),
+              content: Text('Increase customer traffic for $cost gold'),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -220,10 +222,10 @@ class _ShopScreenState extends State<ShopScreen>
                     } else {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Not enough Gold!")));
+                          const SnackBar(content: Text('Not enough gold!')));
                     }
                   },
-                  child: const Text("Upgrade"),
+                  child: const Text('Upgrade Marketing'),
                 )
               ],
             ));
@@ -234,7 +236,8 @@ class _ShopScreenState extends State<ShopScreen>
     if (inventory.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('No items to display! Craft something first.')),
+            content: Text('No items to display'),
+      ),
       );
       return;
     }
@@ -253,7 +256,7 @@ class _ShopScreenState extends State<ShopScreen>
               final count = inventory[item]!;
               return ListTile(
                 title: Text(item.name),
-                subtitle: Text('In Stock: $count'),
+                subtitle: Text('In stock: $count'),
                 trailing: Text('${item.basePrice} G'),
                 onTap: () {
                   _shopManager.displayItem(item, slotIndex);
@@ -313,7 +316,7 @@ class _ShopScreenState extends State<ShopScreen>
     return ListView(
       children: [
         const Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(MGSpacing.md),
             child: Text("Materials",
                 style: TextStyle(fontWeight: FontWeight.bold))),
         ...materials.entries.map((e) => ListTile(
@@ -323,13 +326,13 @@ class _ShopScreenState extends State<ShopScreen>
             )),
         const Divider(),
         const Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(MGSpacing.md),
             child: Text("Crafted Items",
                 style: TextStyle(fontWeight: FontWeight.bold))),
         if (items.isEmpty)
           const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("No items.")),
+              child: const Text('No items')),
         ...items.entries.map((e) => ListTile(
               leading: const Icon(Icons.shield),
               title: Text(e.key.name),

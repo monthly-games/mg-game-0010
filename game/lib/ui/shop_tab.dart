@@ -1,8 +1,10 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/shop_manager.dart';
 import '../game/models.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class ShopTab extends StatelessWidget {
   const ShopTab({super.key});
@@ -14,7 +16,7 @@ class ShopTab extends StatelessWidget {
         final items = Item.getDefaultItems();
 
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(MGSpacing.md),
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
@@ -28,7 +30,7 @@ class ShopTab extends StatelessWidget {
                   size: 40,
                 ),
                 title: Text(item.name),
-                subtitle: Text('재고: $count개 | 판매가: ${item.basePrice}G'),
+                subtitle: Text('재고: $count개, 판매가: ${item.basePrice}g'),
                 trailing: count > 0
                     ? ElevatedButton.icon(
                         onPressed: () => shop.sellItem(item),

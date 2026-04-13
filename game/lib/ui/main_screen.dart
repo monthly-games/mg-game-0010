@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mg_common_game/systems/settings/settings_manager.dart';
@@ -10,6 +11,7 @@ import 'shop_tab.dart';
 import 'crafting_tab.dart';
 import 'dungeon_tab.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -42,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Row(
                   children: [
                     const Icon(Icons.monetization_on, color: Colors.amber),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: MGSpacing.xxs),
                     Text(
                       '${shop.gold}',
                       style: const TextStyle(

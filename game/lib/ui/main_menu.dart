@@ -1,4 +1,6 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/systems/progression/prestige_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
@@ -19,6 +21,7 @@ import 'package:provider/provider.dart';
 import '../game/shop_manager.dart';
 import '../game/crafting_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -99,7 +102,7 @@ class _MainMenuState extends State<MainMenu> {
                 // 플레이 버튼
                 _MenuButton(
                   icon: Icons.play_arrow,
-                  label: 'PLAY',
+                  label: 'PLAY STAGE',
                   color: MGColors.warning,
                   onPressed: () async {
                     final hasSeenTutorial = await TutorialOverlay.hasSeenTutorial();
@@ -132,7 +135,7 @@ class _MainMenuState extends State<MainMenu> {
                     }
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: MGSpacing.mdLg),
 
                 // 데일리 & 위클리 퀘스트 Row
                 Row(
@@ -154,7 +157,7 @@ class _MainMenuState extends State<MainMenu> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.assignment_turned_in, size: 20),
-                            SizedBox(width: 4),
+                            SizedBox(width: MGSpacing.xxs),
                             Text(
                               'DAILY',
                               style: TextStyle(
@@ -166,7 +169,7 @@ class _MainMenuState extends State<MainMenu> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: MGSpacing.md),
                     SizedBox(
                       width: 130,
                       height: 60,
@@ -183,7 +186,7 @@ class _MainMenuState extends State<MainMenu> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.emoji_events, size: 20),
-                            SizedBox(width: 4),
+                            SizedBox(width: MGSpacing.xxs),
                             Text(
                               'WEEKLY',
                               style: TextStyle(
@@ -197,7 +200,7 @@ class _MainMenuState extends State<MainMenu> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: MGSpacing.mdLg),
 
                 // 프레스티지 버튼
                 _MenuButton(
@@ -208,7 +211,7 @@ class _MainMenuState extends State<MainMenu> {
                     _showPrestigeScreen(context);
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: MGSpacing.mdLg),
 
                 // 설정 및 통계 버튼 Row
                 Row(
@@ -254,7 +257,7 @@ class _MainMenuState extends State<MainMenu> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: MGSpacing.md),
                     SizedBox(
                       width: 130,
                       height: 60,
@@ -285,7 +288,7 @@ class _MainMenuState extends State<MainMenu> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: MGSpacing.mdLg),
 
                 // 정보 버튼
                 _MenuButton(
@@ -346,7 +349,7 @@ class _MainMenuState extends State<MainMenu> {
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Prestige successful! Gained $pointsGained prestige points!'),
+        content: Text('Prestige successful! Gained $pointsGained points'),
         backgroundColor: Colors.amber,
         duration: const Duration(seconds: 3),
       ),
@@ -426,8 +429,8 @@ class _MainMenuState extends State<MainMenu> {
         title: const Row(
           children: [
             Icon(Icons.help_outline, color: Color(0xFFd4a574)),
-            SizedBox(width: 8),
-            Text('How to Play'),
+            SizedBox(width: MGSpacing.xs),
+            const Text('How to Play'),
           ],
         ),
         content: const Column(
@@ -438,42 +441,41 @@ class _MainMenuState extends State<MainMenu> {
               '🏪 Shop Tab',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Text('• Sell items to customers'),
-            Text('• Earn gold from sales'),
-            Text('• Upgrade your shop'),
-            SizedBox(height: 16),
-            Text(
+            SizedBox(height: MGSpacing.xs),
+            const Text('Sell items to customers to earn gold'),
+            const Text('Upgrade your shop with new equipment'),
+            SizedBox(height: MGSpacing.md),
+            const Text(
               '⚒️ Crafting Tab',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Text('• Craft items from materials'),
-            Text('• Unlock new recipes'),
-            Text('• Create better items'),
-            SizedBox(height: 16),
-            Text(
+            SizedBox(height: MGSpacing.xs),
+            const Text('Craft items from materials you gather'),
+            const Text('Unlock new recipes as you level up'),
+            const Text('Create better items for higher profits'),
+            SizedBox(height: MGSpacing.md),
+            const Text(
               '🗡️ Dungeon Tab',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Text('• Explore dungeons'),
-            Text('• Gather materials'),
-            Text('• Find rare loot'),
-            SizedBox(height: 16),
-            Text(
+            SizedBox(height: MGSpacing.xs),
+            const Text('Explore dungeons to fight monsters'),
+            const Text('Gather rare materials from defeated foes'),
+            const Text('Find rare loot and treasure'),
+            SizedBox(height: MGSpacing.md),
+            const Text(
               '💰 Idle Income',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Text('• Earn gold while offline'),
-            Text('• Up to 2 hours of rewards'),
+            SizedBox(height: MGSpacing.xs),
+            const Text('Earn gold while away from the game'),
+            const Text('Up to 2 hours of offline income'),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('GOT IT!'),
+            child: const Text('Got it'),
           ),
         ],
       ),
@@ -514,7 +516,7 @@ class _MenuButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 32),
-            const SizedBox(width: 12),
+            const SizedBox(width: MGSpacing.sm),
             Text(
               label,
               style: const TextStyle(

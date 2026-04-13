@@ -1,8 +1,10 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/crafting_manager.dart';
 import '../game/shop_manager.dart';
 import '../game/models.dart';
+
 
 class CraftingTab extends StatelessWidget {
   const CraftingTab({super.key});
@@ -16,7 +18,7 @@ class CraftingTab extends StatelessWidget {
             // 제작 슬롯
             if (crafting.craftingSlots.isNotEmpty) ...[
               const Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(MGSpacing.md),
                 child: Text(
                   '제작 중',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -35,7 +37,7 @@ class CraftingTab extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 8),
                       child: Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(MGSpacing.xs),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -43,9 +45,9 @@ class CraftingTab extends StatelessWidget {
                                 slot.item.name,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: MGSpacing.xs),
                               LinearProgressIndicator(value: slot.progress),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: MGSpacing.xxs),
                               Text('${slot.remainingSeconds}초 남음'),
                             ],
                           ),
@@ -58,7 +60,7 @@ class CraftingTab extends StatelessWidget {
               // 수집 버튼
               if (crafting.completedCount > 0)
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(MGSpacing.md),
                   child: ElevatedButton.icon(
                     onPressed: () {
                       final items = crafting.collectCompletedItems();
@@ -66,7 +68,7 @@ class CraftingTab extends StatelessWidget {
                         shop.addItem(item);
                       }
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${items.length}개 아이템 수집!')),
+                        SnackBar(content: Text('${items.length}개 아이템 수집')),
                       );
                     },
                     icon: const Icon(Icons.download),
@@ -77,7 +79,7 @@ class CraftingTab extends StatelessWidget {
 
             // 재료 현황
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(MGSpacing.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -85,13 +87,13 @@ class CraftingTab extends StatelessWidget {
                     '보유 재료',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: MGSpacing.xs),
                   Wrap(
                     spacing: 8,
                     children: GameMaterial.getDefaultMaterials().map((material) {
                       final count = crafting.getMaterialCount(material.id);
                       return Chip(
-                        label: Text('${material.name}: $count'),
+                        label: Text('${material.name} $count'),
                         avatar: const Icon(Icons.inventory_2, size: 16),
                       );
                     }).toList(),
@@ -105,7 +107,7 @@ class CraftingTab extends StatelessWidget {
             // 제작 가능한 아이템
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(MGSpacing.md),
                 itemCount: Item.getDefaultItems().length,
                 itemBuilder: (context, index) {
                   final item = Item.getDefaultItems()[index];
@@ -128,7 +130,7 @@ class CraftingTab extends StatelessWidget {
                             ? () {
                                 if (crafting.startCrafting(item)) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('${item.name} 제작 시작!')),
+                                    SnackBar(content: Text('${item.name} 제작 시작')),
                                   );
                                 }
                               }

@@ -382,7 +382,7 @@ class _AchievementScreenState extends State<AchievementScreen>
       borderWidth: 1,
       child: Row(
         children: [
-          // Achievement icon — gold for unlocked, gray for locked
+          // Achievement icon -- gold for unlocked, gray for locked
           Container(
             width: MGSpacing.xxl,
             height: MGSpacing.xxl,

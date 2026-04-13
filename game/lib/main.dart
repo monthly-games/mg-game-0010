@@ -1,5 +1,8 @@
+import 'package:mg_common_game/systems/progression/achievement_manager.dart';
+
 import 'package:mg_common_game/mg_common_game.dart' hide CraftingManager, ShopManager, UnifiedIdleManager;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
@@ -12,69 +15,21 @@ import 'game/idle_manager.dart';
 import 'game/customer_manager.dart';
 import 'ui/main_screen.dart';
 import 'screens/collection_screen.dart';
-import 'game/tutorial_config.dart';
-import 'game/balancing_config.dart';
-
-// ============================================================
-// Dungeon Shop Simulator — MG-0010
-// Phase 1 Week 2: Mechanic Enhancement
-//
-// Core loop: Dungeon → Materials → Craft → Display → Sell
-// Subsystems: Customer visits, Idle income, Upgrades, Achievements
-// ============================================================
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    // Firebase already initialized - skip in tests
+  }
   await _initializeSystems();
-  // DailyQuest 시스템
-  GetIt.I.registerSingleton(DailyQuestManager());
-  // Collection 시스템
-  if (!GetIt.I.isRegistered<CollectionManager>()) {
-    GetIt.I.registerSingleton(CollectionManager());
-  // ── P3 Engine Systems ─────────────────────────────────────
-  if (!GetIt.I.isRegistered<GuildWarManager>()) {
-    GetIt.I.registerSingleton(GuildWarManager());
-  }
-  if (!GetIt.I.isRegistered<TournamentManager>()) {
-    GetIt.I.registerSingleton(TournamentManager());
-  }
-  if (!GetIt.I.isRegistered<SeasonalContentManager>()) {
-    GetIt.I.registerSingleton(SeasonalContentManager());
-  }
-_registerCollections();
-  }
-  _registerDailyQuests();
-  // ── Tutorial & Balancing (v1.2.0 pilot) ─────────────────────
-  if (!GetIt.I.isRegistered<TutorialManager>()) {
-    final tutorialManager = TutorialManager();
-    await tutorialManager.initialize();
-    tutorialManager.registerTutorial(
-      kOnboardingTutorial.id,
-      kOnboardingTutorial.steps,
-    );
-    GetIt.I.registerSingleton<TutorialManager>(tutorialManager);
-  }
-  if (!GetIt.I.isRegistered<BalancingManager>()) {
-    GetIt.I.registerSingleton<BalancingManager>(
-      BalancingManager(defaultConfig: kDefaultBalancingConfig),
-    );
-  }
-  // ── Q7 DI Fix: Missing Systems ──────────────────────────
-  if (!GetIt.I.isRegistered<BattlePassManager>()) {
-    GetIt.I.registerSingleton<BattlePassManager>(BattlePassManager());
-  }
-  if (!GetIt.I.isRegistered<GachaManager>()) {
-    GetIt.I.registerSingleton<GachaManager>(GachaManager());
-  }
-
   runApp(const DungeonShopApp());
 }
 
 /// Initialize all DI-registered systems in correct dependency order.
-/// mg_common_game systems first, then game-specific managers.
 Future<void> _initializeSystems() async {
   final di = GetIt.I;
 
@@ -102,6 +57,13 @@ Future<void> _initializeSystems() async {
     await upgrades.loadUpgrades();
   }
 
+  if (!di.isRegistered<PrestigeManager>()) {
+    final prestigeManager = PrestigeManager();
+    di.registerSingleton(prestigeManager);
+    _setupPrestige(prestigeManager);
+    await prestigeManager.loadPrestigeData();
+  }
+
   // ── Game-specific managers ───────────────────────────────
   if (!di.isRegistered<ShopManager>()) {
     di.registerSingleton<ShopManager>(ShopManager());
@@ -124,34 +86,46 @@ Future<void> _initializeSystems() async {
   if (!di.isRegistered<CustomerManager>()) {
     final customers = CustomerManager();
     di.registerSingleton<CustomerManager>(customers);
-
-  // Prestige 시스템 (mg_common_game)
-  if (!GetIt.I.isRegistered<PrestigeManager>()) {
-    final prestigeManager = PrestigeManager();
-    GetIt.I.registerSingleton(prestigeManager);
-  // ── Retention Systems for DailyHub ────────────────────────
-  if (!GetIt.I.isRegistered<LoginRewardsManager>()) {
-    GetIt.I.registerSingleton(LoginRewardsManager());
-  }
-  if (!GetIt.I.isRegistered<StreakManager>()) {
-    GetIt.I.registerSingleton(StreakManager());
-  }
-  if (!GetIt.I.isRegistered<DailyChallengeManager>()) {
-    GetIt.I.registerSingleton(DailyChallengeManager());
-  }
-    _setupPrestige(prestigeManager);
-    await prestigeManager.loadPrestigeData();
-  }
     customers.startCustomerCycle();
+  }
+
+  // ── Daily Quest Manager ─────────────────────────────────────
+  if (!di.isRegistered<DailyQuestManager>()) {
+    final questManager = DailyQuestManager();
+
+    // Register Healing Garden themed quests
+    questManager.registerQuest(DailyQuest(
+      id: 'garden_harvest_20',
+      title: 'Herbalist',
+      description: 'Harvest 20 herbs',
+      targetValue: 20,
+      goldReward: 150,
+      xpReward: 50,
+    ));
+
+    questManager.registerQuest(DailyQuest(
+      id: 'garden_heal_10',
+      title: 'Master Healer',
+      description: 'Heal 10 patients',
+      targetValue: 10,
+      goldReward: 200,
+      xpReward: 75,
+    ));
+
+    questManager.registerQuest(DailyQuest(
+      id: 'garden_gold_1200',
+      title: 'Garden Prosperity',
+      description: 'Earn 1200 gold from remedies',
+      targetValue: 1200,
+      goldReward: 250,
+      xpReward: 80,
+    ));
+
+    di.registerSingleton<DailyQuestManager>(questManager);
   }
 }
 
-// ============================================================
-// Upgrade Registration — 8 dungeon-shop upgrades
-// ============================================================
-
 void _registerUpgrades(UpgradeManager manager) {
-  // ── Production upgrades ──
   manager.registerUpgrade(Upgrade(
     id: 'craft_speed',
     name: 'Forge Mastery',
@@ -162,17 +136,6 @@ void _registerUpgrades(UpgradeManager manager) {
     valuePerLevel: 0.1,
   ));
 
-  manager.registerUpgrade(Upgrade(
-    id: 'craft_mastery',
-    name: 'Artisan Expertise',
-    description: 'Unlock rare recipes and boost craft quality.',
-    maxLevel: 10,
-    baseCost: 200,
-    costMultiplier: 1.6,
-    valuePerLevel: 1.0,
-  ));
-
-  // ── Commerce upgrades ──
   manager.registerUpgrade(Upgrade(
     id: 'sell_price',
     name: 'Haggling',
@@ -193,39 +156,6 @@ void _registerUpgrades(UpgradeManager manager) {
     valuePerLevel: 5.0,
   ));
 
-  // ── Customer upgrades ──
-  manager.registerUpgrade(Upgrade(
-    id: 'customer_attraction',
-    name: 'Shop Reputation',
-    description: 'Attract customers 15% faster per level.',
-    maxLevel: 15,
-    baseCost: 100,
-    costMultiplier: 1.45,
-    valuePerLevel: 0.15,
-  ));
-
-  manager.registerUpgrade(Upgrade(
-    id: 'display_quality',
-    name: 'Display Showcase',
-    description: 'Increase purchase probability by 5% per level.',
-    maxLevel: 10,
-    baseCost: 120,
-    costMultiplier: 1.5,
-    valuePerLevel: 0.05,
-  ));
-
-  // ── Dungeon upgrades ──
-  manager.registerUpgrade(Upgrade(
-    id: 'dungeon_loot',
-    name: 'Treasure Hunter',
-    description: 'Boost dungeon material drops by 10% per level.',
-    maxLevel: 15,
-    baseCost: 100,
-    costMultiplier: 1.4,
-    valuePerLevel: 0.1,
-  ));
-
-  // ── Idle upgrades ──
   manager.registerUpgrade(Upgrade(
     id: 'idle_production',
     name: 'Idle Income',
@@ -237,43 +167,12 @@ void _registerUpgrades(UpgradeManager manager) {
   ));
 }
 
-// ============================================================
-// Achievement Analytics Configuration
-// Maps achievement IDs to categories and point values for
-// Firebase Analytics events. Customize per game.
-// ============================================================
-
-const _kAchievementCategories = <String, String>{
-  'first_sale': 'progression',
-  'master_crafter': 'progression',
-  'master_merchant': 'progression',
-  'shop_legend': 'special',
-  'customer_favorite': 'social',
-};
-
-const _kAchievementPoints = <String, int>{
-  'first_sale': 10,
-  'master_crafter': 25,
-  'master_merchant': 25,
-  'shop_legend': 50,
-  'customer_favorite': 30,
-};
-
-// ============================================================
-// Achievement Registration — 5 dungeon-shop achievements
-// ============================================================
-
 void _registerAchievements(AchievementManager manager) {
-  // Firebase Analytics: Log achievement unlock events during gameplay.
   manager.onAchievementUnlocked = (achievement) {
     FirebaseAnalytics.instance.logEvent(
       name: 'achievement_unlocked',
       parameters: {
         'achievement_id': achievement.id,
-        'category':
-            _kAchievementCategories[achievement.id] ?? 'general',
-        'points':
-            _kAchievementPoints[achievement.id] ?? 10,
       },
     );
   };
@@ -282,41 +181,43 @@ void _registerAchievements(AchievementManager manager) {
     id: 'first_sale',
     title: 'Open for Business',
     description: 'Complete your first sale.',
-    iconAsset: 'assets/images/achievement_sale.png',
+    iconAsset: 'assets/icons/achievement_sale.png',
   ));
 
   manager.registerAchievement(Achievement(
     id: 'master_crafter',
     title: 'Master Crafter',
     description: 'Craft 50 items.',
-    iconAsset: 'assets/images/achievement_craft.png',
+    iconAsset: 'assets/icons/achievement_craft.png',
   ));
 
   manager.registerAchievement(Achievement(
     id: 'master_merchant',
     title: 'Master Merchant',
     description: 'Accumulate 5,000 gold.',
-    iconAsset: 'assets/images/achievement_gold.png',
-  ));
-
-  manager.registerAchievement(Achievement(
-    id: 'shop_legend',
-    title: 'Shop Legend',
-    description: 'Serve 100 customers through auto-sales.',
-    iconAsset: 'assets/images/achievement_legend.png',
-  ));
-
-  manager.registerAchievement(Achievement(
-    id: 'customer_favorite',
-    title: 'Customer Favorite',
-    description: 'Reach 90% customer satisfaction.',
-    iconAsset: 'assets/images/achievement_star.png',
+    iconAsset: 'assets/icons/achievement_gold.png',
   ));
 }
 
-// ============================================================
-// App Root — MultiProvider wraps all game state
-// ============================================================
+void _setupPrestige(PrestigeManager manager) {
+  manager.registerPrestigeUpgrade(PrestigeUpgrade(
+    id: 'gold_multiplier',
+    name: 'Gold Multiplier',
+    description: 'Gold earned +10%',
+    maxLevel: 50,
+    costPerLevel: 1,
+    bonusPerLevel: 0.1,
+  ));
+
+  manager.registerPrestigeUpgrade(PrestigeUpgrade(
+    id: 'xp_boost',
+    name: 'XP Boost',
+    description: 'XP earned +15%',
+    maxLevel: 40,
+    costPerLevel: 2,
+    bonusPerLevel: 0.15,
+  ));
+}
 
 class DungeonShopApp extends StatelessWidget {
   const DungeonShopApp({super.key});
@@ -338,41 +239,11 @@ class DungeonShopApp extends StatelessWidget {
         title: 'Dungeon Shop Simulator',
         debugShowCheckedModeBanner: false,
         theme: _buildTheme(),
-        routes: {
-        '/daily-hub': (context) => DailyHubScreen(
-          questManager: GetIt.I<DailyQuestManager>(),
-          loginRewardsManager: GetIt.I<LoginRewardsManager>(),
-          streakManager: GetIt.I<StreakManager>(),
-          challengeManager: GetIt.I<DailyChallengeManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-        ),
-        
-        '/collection': (context) => CollectionScreen(
-          collectionManager: GetIt.I<CollectionManager>(),
-        ),
-          '/guild-war': (context) => GuildWarScreen(
-            guildWarManager: GetIt.I<GuildWarManager>(),
-            accentColor: MGColors.primaryAction,
-            onClose: () => Navigator.pop(context),
-            ),
-          '/tournament': (context) => TournamentScreen(
-            tournamentManager: GetIt.I<TournamentManager>(),
-            accentColor: MGColors.primaryAction,
-            onClose: () => Navigator.pop(context),
-            ),
-          '/seasonal-event': (context) => SeasonalEventScreen(
-            seasonalContentManager: GetIt.I<SeasonalContentManager>(),
-            accentColor: MGColors.primaryAction,
-            onClose: () => Navigator.pop(context),
-            ),
-},
         home: const MainScreen(),
       ),
     );
   }
 
-  /// Dungeon-themed dark mode with warm gold accents
   ThemeData _buildTheme() {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
@@ -380,170 +251,36 @@ class DungeonShopApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       useMaterial3: true,
-      appBarTheme: const AppBarTheme(
-        centerTitle: true,
-        elevation: 0,
-      ),
-      cardTheme: CardThemeData(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+    );
+  }
+
+
+  Widget _buildSpineCharacter() {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.cyan.withValues(alpha: 0.6),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.cyan.withAlpha(150), width: 2),
         ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person, size: 24, color: Colors.white),
+            SizedBox(height: 2),
+            Text(
+              'Hero',
+              style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
-
-void _registerDailyQuests() {
-  final dailyQuest = GetIt.I<DailyQuestManager>();
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'collect_gold',
-    title: '골드 모으기',
-    description: '골드 1000 획득',
-    targetValue: 1000,
-    goldReward: 500,
-    xpReward: 10,
-  ));
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'play_games',
-    title: '게임 플레이',
-    description: '게임 5판 플레이',
-    targetValue: 5,
-    goldReward: 300,
-    xpReward: 5,
-  ));
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'level_up',
-    title: '레벨업',
-    description: '레벨 1 상승',
-    targetValue: 1,
-    goldReward: 200,
-    xpReward: 3,
-  ));
-}
-
-void _setupPrestige(PrestigeManager manager) {
-  // ── Prestige Upgrades (idle game defaults) ──────────────────
-  // Five core upgrades for idle games
-  manager.registerPrestigeUpgrade(PrestigeUpgrade(
-    id: 'gold_multiplier',
-    name: '골드 배수',
-    description: '골드 획득량 +10%',
-    maxLevel: 50,
-    costPerLevel: 1,
-    bonusPerLevel: 0.1,
-  ));
-
-  manager.registerPrestigeUpgrade(PrestigeUpgrade(
-    id: 'xp_boost',
-    name: 'XP 부스트',
-    description: 'XP 획득량 +15%',
-    maxLevel: 40,
-    costPerLevel: 2,
-    bonusPerLevel: 0.15,
-  ));
-
-  manager.registerPrestigeUpgrade(PrestigeUpgrade(
-    id: 'production_speed',
-    name: '생산 속도',
-    description: '생산 속도 +20%',
-    maxLevel: 30,
-    costPerLevel: 2,
-    bonusPerLevel: 0.2,
-  ));
-
-  manager.registerPrestigeUpgrade(PrestigeUpgrade(
-    id: 'starting_resources',
-    name: '초기 자원',
-    description: '초기 자원 +5%',
-    maxLevel: 60,
-    costPerLevel: 1,
-    bonusPerLevel: 0.05,
-  ));
-
-  manager.registerPrestigeUpgrade(PrestigeUpgrade(
-    id: 'offline_income',
-    name: '오프라인 수익',
-    description: '오프라인 수익 +20%',
-    maxLevel: 30,
-    costPerLevel: 3,
-    bonusPerLevel: 0.2,
-  ));
-
-  // ── Prestige Reset Callbacks ────────────────────────────────
-  // TODO: Add game-specific reset callbacks:
-  // manager.registerResetCallback(() {
-  //   if (GetIt.I.isRegistered<ProgressionManager>()) {
-  //     GetIt.I<ProgressionManager>().reset();
-  //   }
-  //   if (GetIt.I.isRegistered<UpgradeManager>()) {
-  //     GetIt.I<UpgradeManager>().reset();
-  //   }
-  // });
-}
-
-void _registerCollections() {
-  final collection = GetIt.I<CollectionManager>();
-
-  // Characters 컬렉션
-  collection.registerCollection(Collection(
-    id: 'characters',
-    name: '캐릭터',
-    description: '모든 캐릭터를 수집하세요',
-    items: [
-      CollectionItem(
-        id: 'char_warrior',
-        name: '전사',
-        description: '강인한 근접 전투 캐릭터',
-        rarity: CollectionRarity.common,
-      ),
-      CollectionItem(
-        id: 'char_mage',
-        name: '마법사',
-        description: '강력한 마법 공격 캐릭터',
-        rarity: CollectionRarity.rare,
-      ),
-      CollectionItem(
-        id: 'char_archer',
-        name: '궁수',
-        description: '원거리 정밀 공격 캐릭터',
-        rarity: CollectionRarity.rare,
-      ),
-      CollectionItem(
-        id: 'char_assassin',
-        name: '암살자',
-        description: '치명적인 은신 공격 캐릭터',
-        rarity: CollectionRarity.epic,
-      ),
-      CollectionItem(
-        id: 'char_healer',
-        name: '힐러',
-        description: '팀을 치유하는 지원 캐릭터',
-        rarity: CollectionRarity.legendary,
-      ),
-    ],
-    completionReward: CollectionReward(type: RewardType.gold, amount: 10000),
-    milestoneRewards: {
-      25: CollectionReward(type: RewardType.gold, amount: 1000),
-      50: CollectionReward(type: RewardType.gold, amount: 3000),
-      75: CollectionReward(type: RewardType.gold, amount: 5000),
-    },
-  ));
-
-  // 아이템 해제 콜백 (햅틱 피드백)
-  collection.onItemUnlocked = (collectionId, itemId) {
-    // SettingsManager가 등록되어 있으면 햅틱 피드백
-    debugPrint('Collection item unlocked: $collectionId / $itemId');
-  };
 }
