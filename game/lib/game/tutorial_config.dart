@@ -1,5 +1,4 @@
 import 'package:mg_common_game/systems/tutorial/tutorial.dart';
-import 'package:mg_common_game/systems/tutorial/tutorial_data.dart';
 
 /// Tutorial configuration for MG-0010: Dungeon Shop Simulator.
 ///

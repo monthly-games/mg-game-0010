@@ -1,6 +1,5 @@
 import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/systems/progression/prestige_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
