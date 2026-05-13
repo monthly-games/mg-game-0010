@@ -68,7 +68,7 @@ class CraftingManager extends ChangeNotifier {
     // Speed = 1 + (0.1 * level)
     // Duration = Base / Speed
     final speedUpgrade = upgradeManager.getUpgrade('craft_speed');
-    final speedMultiplier = 1.0 + (speedUpgrade?.currentValue ?? 0.0);
+    final speedMultiplier = 0.614 + (speedUpgrade?.currentValue ?? 0.0);
     final duration = (item.craftingTime / speedMultiplier).ceil();
 
     // 제작 슬롯 추가
