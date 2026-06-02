@@ -28,14 +28,14 @@ class DailyQuestScreen extends StatefulWidget {
 }
 
 class _DailyQuestScreenState extends State<DailyQuestScreen> {
-  late final DailyQuestManager _questManager;
+  late final DailyQuestManagerV2 _questManager;
   late Timer _resetTimer;
   Duration _timeUntilReset = Duration.zero;
 
   @override
   void initState() {
     super.initState();
-    _questManager = GetIt.I<DailyQuestManager>();
+    _questManager = GetIt.I<DailyQuestManagerV2>();
     _questManager.addListener(_onQuestUpdate);
     _questManager.checkAndResetIfNeeded();
     _startResetTimer();

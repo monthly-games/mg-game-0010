@@ -75,7 +75,7 @@ android {
 
             // Optimize APK size
             ndk {
-                debugSymbolLevel = "NONE"
+                debugSymbolLevel = "SYMBOL_TABLE"
             }
         }
         debug {
